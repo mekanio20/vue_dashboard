@@ -37,7 +37,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="row row-cards">
-                                                    <div class="mb-3 col-sm-4 col-md-3">
+                                                    <div class="mb-3 col-sm-4 col-md-2">
                                                         <label class="form-label required">Method</label>
                                                         <select v-model="method" class="form-select">
                                                             <option value="GET">GET</option>
@@ -46,7 +46,7 @@
                                                             <option value="DELETE">DELETE</option>
                                                         </select>
                                                     </div>
-                                                    <div class="mb-3 col-sm-4 col-md-4">
+                                                    <div class="mb-3 col-sm-4 col-md-3">
                                                         <label class="form-label required">Group</label>
                                                         <select v-model="groupId" class="form-select">
                                                             <option 
@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-footer text-end">
-                                                <button @submit="addPermission" class="btn btn-primary">Submit</button>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -78,11 +78,10 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import Header from '@/components/Header.vue'
     import Navbar from '@/components/Navbar.vue'
     import Alert from '@/components/Alert.vue'
-    import { useRouter } from 'vue-router'
-    import { onMounted } from 'vue'
     export default {
         components: {
             Header,
@@ -104,60 +103,53 @@
         methods: {
             async addGroup() {
                 try {
-                    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZ3JvdXAiOjEsImlhdCI6MTY5NzYyNjkyMSwiZXhwIjoxNzAwMjE4OTIxfQ.RYS9Ss3qqfoJMnrqbDbfEMxyXbL1uEFhbiQNLdxvfK0'
                     const API_URL = 'http://localhost:5000/api/admin/add/group'
-                    const router = useRouter()
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
+                    const postData = {
+                        name: this.name
+                    }
+                    const axiosConfig = {
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ name: this.name })
-                    })
-                    const json = await response.json()
-                    router.push({ name: 'admin' })
+                            'Authorization': `${localStorage.getItem('Authorization')}`
+                        }
+                    }
+                    await axios.post(API_URL, postData, axiosConfig)
+                    this.$router.push('/admin')
                 } catch (error) {
                     console.log(error)
                 }
             },
             async addPermission() {
                 try {
-                    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZ3JvdXAiOjEsImlhdCI6MTY5NzYyNjkyMSwiZXhwIjoxNzAwMjE4OTIxfQ.RYS9Ss3qqfoJMnrqbDbfEMxyXbL1uEFhbiQNLdxvfK0'
                     const API_URL = 'http://localhost:5000/api/admin/add/permission'
-                    const router = useRouter()
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
+                    const postData = {
+                        url: this.url,
+                        method: this.method,
+                        groupId: this.groupId 
+                    }
+                    const axiosConfig = {
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ 
-                            url: this.url,
-                            method: this.method,
-                            groupId: this.groupId 
-                        })
-                    })
-                    const json = await response.json()
-                    console.log(json);
-                    router.push({ name: 'admin' })
+                            'Authorization': `${localStorage.getItem('Authorization')}`
+                        }
+                    }
+                    await axios.post(API_URL, postData, axiosConfig)
+                    this.$router.push('/admin')
                 } catch (error) {
                     console.log(error)
                 }
             },
             async allGroups() {
                 try {
-                    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZ3JvdXAiOjEsImlhdCI6MTY5NzYyNjkyMSwiZXhwIjoxNzAwMjE4OTIxfQ.RYS9Ss3qqfoJMnrqbDbfEMxyXbL1uEFhbiQNLdxvfK0'
                     const API_URL = 'http://localhost:5000/api/admin/all/groups'
-                    const router = useRouter()
-                    const response = await fetch(API_URL, {
+                    const axiosConfig = {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `${localStorage.getItem('Authorization')}`
                         }
-                    })
-                    const json = await response.json()
-                    this.groups = json
-                    router.push({ name: 'admin' })
+                    }
+                    const response = await axios.get(API_URL, axiosConfig)
+                    this.groups = response.data
+                    this.$router.push('/admin')
                 } catch (error) {
                     console.log(err)
                 }

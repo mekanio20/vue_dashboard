@@ -6,7 +6,8 @@
 * Copyright 2018-2023 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 */
-(function (factory) {
+
+module.exports = (function (factory) {
 	typeof define === 'function' && define.amd ? define(factory) :
 	factory();
 })((function () { 'use strict';
@@ -31,5 +32,4 @@
 	} else {
 	  document.body.removeAttribute("data-bs-theme");
 	}
-
 }));
