@@ -1,7 +1,6 @@
 <template>
     <Header />
     <Navbar />
-    <Alert />
     <div class="page-wrapper">
         <div class="page-body">
             <div class="container-xl">
@@ -21,6 +20,72 @@
                                                 <div class="mb-3">
                                                     <label class="form-label required">Group name</label>
                                                     <input v-model="name" class="form-control" placeholder="name">
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-end">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row row-cards">
+                                        <form @submit="addStorage" class="card">
+                                            <div class="card-header">
+                                                <h2 class="card-title">
+                                                    Add Storage
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label required">tm_name</label>
+                                                    <input v-model="tm_name" class="form-control" placeholder="tm_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">ru_name</label>
+                                                    <input v-model="ru_name" class="form-control" placeholder="ru_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">en_name</label>
+                                                    <input v-model="en_name" class="form-control" placeholder="en_name">
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-end">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row row-cards">
+                                        <form @submit="addCategory" class="card">
+                                            <div class="card-header">
+                                                <h2 class="card-title">
+                                                    Add Category
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label required">tm_name</label>
+                                                    <input v-model="tm_name" class="form-control" placeholder="tm_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">ru_name</label>
+                                                    <input v-model="ru_name" class="form-control" placeholder="ru_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">en_name</label>
+                                                    <input v-model="en_name" class="form-control" placeholder="en_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label required">Storage selection</label>
+                                                    <select v-model="storageId" class="form-select">
+                                                            <option 
+                                                                v-for="storage in storages.detail"
+                                                                :key="storage.id"
+                                                                :value="storage.id"
+                                                            >{{ storage.tm_name }}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="card-footer text-end">
@@ -81,26 +146,31 @@
     import axios from 'axios'
     import Header from '@/components/Header.vue'
     import Navbar from '@/components/Navbar.vue'
-    import Alert from '@/components/Alert.vue'
     export default {
         components: {
             Header,
-            Navbar,
-            Alert
+            Navbar
         },
         data() {
             return {
                 name: '',
+                tm_name: '',
+                ru_name: '',
+                en_name: '',
                 url: '/api',
                 method: '',
                 groupId: 0,
-                groups: []
+                storageId: 0,
+                groups: [],
+                storages: []
             }
         },
-        async created(){
-            await this.allGroups()
+        async created() { 
+            await this.allGroups(),
+            await this.allStorages()
         },
         methods: {
+            // POST
             async addGroup() {
                 try {
                     const API_URL = 'http://localhost:5000/api/admin/add/group'
@@ -139,6 +209,48 @@
                     console.log(error)
                 }
             },
+            async addStorage() {
+                try {
+                    const API_URL = 'http://localhost:5000/api/admin/add/storage'
+                    const postData = {
+                        tm_name: this.tm_name,
+                        ru_name: this.ru_name,
+                        en_name: this.en_name 
+                    }
+                    const axiosConfig = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `${localStorage.getItem('Authorization')}`
+                        }
+                    }
+                    await axios.post(API_URL, postData, axiosConfig)
+                    this.$router.push('/admin')
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+            async addCategory() {
+                try {
+                    const API_URL = 'http://localhost:5000/api/admin/add/category'
+                    const postData = {
+                        tm_name: this.tm_name,
+                        ru_name: this.ru_name,
+                        en_name: this.en_name,
+                        storageId: this.storageId
+                    }
+                    const axiosConfig = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `${localStorage.getItem('Authorization')}`
+                        }
+                    }
+                    await axios.post(API_URL, postData, axiosConfig)
+                    this.$router.push('/admin')
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+            // GET
             async allGroups() {
                 try {
                     const API_URL = 'http://localhost:5000/api/admin/all/groups'
@@ -153,7 +265,17 @@
                 } catch (error) {
                     console.log(err)
                 }
-            } 
+            },
+            async allStorages() {
+                try {
+                    const API_URL = 'http://localhost:5000/api/user/storages'
+                    const response = await axios.get(API_URL)
+                    this.storages = response.data
+                    this.$router.push('/admin')
+                } catch (error) {
+                    console.log(err)
+                }
+            }
         }
     }
 </script>
