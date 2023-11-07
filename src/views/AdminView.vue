@@ -94,6 +94,44 @@
                                         </form>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="row row-cards">
+                                        <form @submit="addSubCategory" class="card">
+                                            <div class="card-header">
+                                                <h2 class="card-title">
+                                                    Add SubCategory
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label required">tm_name</label>
+                                                    <input v-model="tm_name" class="form-control" placeholder="tm_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">ru_name</label>
+                                                    <input v-model="ru_name" class="form-control" placeholder="ru_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">en_name</label>
+                                                    <input v-model="en_name" class="form-control" placeholder="en_name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label required">Category selection</label>
+                                                    <select v-model="categoryId" class="form-select">
+                                                            <option 
+                                                                v-for="category in categories.detail"
+                                                                :key="category.id"
+                                                                :value="category.id"
+                                                            >{{ category.tm_name }}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-end">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                                 <div class="col-lg-8">
                                     <div class="col-12">
                                         <form @submit="addPermission" class="card">
@@ -161,13 +199,16 @@
                 method: '',
                 groupId: 0,
                 storageId: 0,
+                categoryId: 0,
                 groups: [],
-                storages: []
+                storages: [],
+                categories: []
             }
         },
         async created() { 
             await this.allGroups(),
-            await this.allStorages()
+            await this.allStorages(),
+            await this.allCategories()
         },
         methods: {
             // POST
@@ -250,6 +291,27 @@
                     console.log(error)
                 }
             },
+            async addSubCategory() {
+                try {
+                    const API_URL = 'http://localhost:5000/api/admin/add/subcategory'
+                    const postData = {
+                        tm_name: this.tm_name,
+                        ru_name: this.ru_name,
+                        en_name: this.en_name,
+                        categoryId: this.categoryId
+                    }
+                    const axiosConfig = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `${localStorage.getItem('Authorization')}`
+                        }
+                    }
+                    await axios.post(API_URL, postData, axiosConfig)
+                    this.$router.push('/admin')
+                } catch (error) {
+                    console.log(error)
+                }
+            },
             // GET
             async allGroups() {
                 try {
@@ -275,7 +337,17 @@
                 } catch (error) {
                     console.log(err)
                 }
-            }
+            },
+            async allCategories() {
+                try {
+                    const API_URL = 'http://localhost:5000/api/user/categories'
+                    const response = await axios.get(API_URL)
+                    this.categories = response.data
+                    this.$router.push('/admin')
+                } catch (error) {
+                    console.log(err)
+                }
+            },
         }
     }
 </script>
