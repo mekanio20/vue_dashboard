@@ -21,152 +21,103 @@
                                                 </h2>
                                             </div>
                                             <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">Group name</label>
-                                                    <input v-model="name" class="form-control" placeholder="name">
-                                                </div>
+                                                <TextInput label="group" placeholder="group name" v-model="group_name"></TextInput>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="row row-cards">
-                                        <form @submit="addStorage" class="card">
+                                        <form @submit.prevent="addStorage" class="card">
                                             <div class="card-header">
                                                 <h2 class="card-title">
                                                     Add Storage
                                                 </h2>
                                             </div>
                                             <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">tm_name</label>
-                                                    <input v-model="tm_name1" class="form-control" placeholder="tm_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">ru_name</label>
-                                                    <input v-model="ru_name1" class="form-control" placeholder="ru_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">en_name</label>
-                                                    <input v-model="en_name1" class="form-control" placeholder="en_name">
-                                                </div>
+                                                <TextInput label="tm_name" placeholder="tm_name" v-model="storage.tm_name"></TextInput>
+                                                <TextInput label="ru_name" placeholder="ru_name" v-model="storage.ru_name"></TextInput>
+                                                <TextInput label="en_name" placeholder="en_name" v-model="storage.en_name"></TextInput>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="row row-cards">
-                                        <form @submit="addCategory" class="card">
+                                        <form @submit.prevent="addCategory" class="card">
                                             <div class="card-header">
                                                 <h2 class="card-title">
                                                     Add Category
                                                 </h2>
                                             </div>
                                             <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">tm_name</label>
-                                                    <input v-model="tm_name2" class="form-control" placeholder="tm_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">ru_name</label>
-                                                    <input v-model="ru_name2" class="form-control" placeholder="ru_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">en_name</label>
-                                                    <input v-model="en_name2" class="form-control" placeholder="en_name">
-                                                </div>
+                                                <TextInput label="tm_name" placeholder="tm_name" v-model="category.tm_name"></TextInput>
+                                                <TextInput label="ru_name" placeholder="ru_name" v-model="category.ru_name"></TextInput>
+                                                <TextInput label="en_name" placeholder="en_name" v-model="category.en_name"></TextInput>
                                                 <div class="mb-3">
                                                     <label class="form-label required">Storage selection</label>
                                                     <select v-model="storageId" class="form-select">
-                                                            <option 
-                                                                v-for="storage in storages.detail"
-                                                                :key="storage.id"
-                                                                :value="storage.id"
-                                                            >{{ storage.tm_name }}</option>
+                                                        <option 
+                                                            v-for="storage in storages.detail"
+                                                            :key="storage.id"
+                                                            :value="storage.id"
+                                                        >{{ storage.tm_name }}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="row row-cards">
-                                        <form @submit="addSubCategory" class="card">
+                                        <form @submit.prevent="addSubCategory" class="card">
                                             <div class="card-header">
                                                 <h2 class="card-title">
                                                     Add SubCategory
                                                 </h2>
                                             </div>
                                             <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">tm_name</label>
-                                                    <input v-model="tm_name3" class="form-control" placeholder="tm_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">ru_name</label>
-                                                    <input v-model="ru_name3" class="form-control" placeholder="ru_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">en_name</label>
-                                                    <input v-model="en_name3" class="form-control" placeholder="en_name">
-                                                </div>
+                                                <TextInput label="tm_name" placeholder="tm_name" v-model="subcategory.tm_name"></TextInput>
+                                                <TextInput label="ru_name" placeholder="ru_name" v-model="subcategory.ru_name"></TextInput>
+                                                <TextInput label="en_name" placeholder="en_name" v-model="subcategory.en_name"></TextInput>
                                                 <div class="mb-3">
                                                     <label class="form-label required">Category selection</label>
                                                     <select v-model="categoryId" class="form-select">
-                                                            <option 
-                                                                v-for="category in categories.detail"
-                                                                :key="category.id"
-                                                                :value="category.id"
-                                                            >{{ category.tm_name }}</option>
+                                                        <option 
+                                                            v-for="category in categories.detail"
+                                                            :key="category.id"
+                                                            :value="category.id"
+                                                        >{{ category.tm_name }}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="row row-cards">
-                                        <form @submit="addFeature" class="card">
+                                        <form @submit.prevent="addFeature" class="card">
                                             <div class="card-header">
                                                 <h2 class="card-title">
                                                     Add Feature
                                                 </h2>
                                             </div>
                                             <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">tm_name</label>
-                                                    <input v-model="tm_name4" class="form-control" placeholder="tm_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">ru_name</label>
-                                                    <input v-model="ru_name4" class="form-control" placeholder="ru_name">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">en_name</label>
-                                                    <input v-model="en_name4" class="form-control" placeholder="en_name">
-                                                </div>
+                                                <TextInput label="tm_name" placeholder="tm_name" v-model="feature.tm_name"></TextInput>
+                                                <TextInput label="ru_name" placeholder="ru_name" v-model="feature.ru_name"></TextInput>
+                                                <TextInput label="en_name" placeholder="en_name" v-model="feature.en_name"></TextInput>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="row row-cards">
-                                        <form @submit="addFeatureDesc" class="card">
+                                        <form @submit.prevent="addFeatureDesc" class="card">
                                             <div class="card-header">
                                                 <h2 class="card-title">
                                                     Add Feature Description
@@ -186,15 +137,13 @@
                                                     >{{ feature.tm_name }}</option>
                                                 </select>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="col-12">
-                                        <form @submit="addPermission" class="card">
+                                        <form @submit.prevent="addPermission" class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Add Permission</h3>
                                             </div>
@@ -225,9 +174,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-footer text-end">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                            <FormButton />
                                         </form>
                                     </div>
                                 </div>
@@ -244,31 +191,41 @@
     import axios from 'axios'
     import Header from '@/components/Header.vue'
     import Navbar from '@/components/Navbar.vue'
-    import Alert from '@/components/Alert.vue'
+    import TextInput from '@/components/layouts/TextInput.vue'
+    import FormButton from '@/components/layouts/FormButton.vue'
     export default {
         components: {
             Header,
             Navbar,
-            Alert
+            TextInput,
+            FormButton
         },
         data() {
             return {
-                name: '',
+                group_name: '',
                 method: '',
                 desc: '',
                 url: '/api',
-                tm_name1: '',
-                ru_name1: '',
-                en_name1: '',
-                tm_name2: '',
-                ru_name2: '',
-                en_name2: '',
-                tm_name3: '',
-                ru_name3: '',
-                en_name3: '',
-                tm_name4: '',
-                ru_name4: '',
-                en_name4: '',
+                storage: {
+                    tm_name: '',
+                    ru_name: '',
+                    en_name: ''
+                },
+                category: {
+                    tm_name: '',
+                    ru_name: '',
+                    en_name: ''
+                },
+                subcategory: {
+                    tm_name: '',
+                    ru_name: '',
+                    en_name: ''
+                },
+                feature: {
+                    tm_name: '',
+                    ru_name: '',
+                    en_name: ''
+                },
                 groupId: 0,
                 storageId: 0,
                 categoryId: 0,
@@ -293,7 +250,7 @@
                     const errorAlert = document.getElementsByClassName('alert-danger')[0]
                     const API_URL = 'http://localhost:5000/api/admin/add/group'
                     const postData = {
-                        name: this.name
+                        name: this.group_name
                     }
                     const axiosConfig = {
                         headers: {
@@ -365,9 +322,9 @@
                     const errorAlert = document.getElementsByClassName('alert-danger')[0]
                     const API_URL = 'http://localhost:5000/api/admin/add/storage'
                     const postData = {
-                        tm_name: this.tm_name1,
-                        ru_name: this.ru_name1,
-                        en_name: this.en_name1 
+                        tm_name: this.storage.tm_name,
+                        ru_name: this.storage.ru_name,
+                        en_name: this.storage.en_name 
                     }
                     const axiosConfig = {
                         headers: {
@@ -402,9 +359,9 @@
                     const errorAlert = document.getElementsByClassName('alert-danger')[0]
                     const API_URL = 'http://localhost:5000/api/admin/add/category'
                     const postData = {
-                        tm_name: this.tm_name2,
-                        ru_name: this.ru_name2,
-                        en_name: this.en_name2,
+                        tm_name: this.category.tm_name,
+                        ru_name: this.category.ru_name,
+                        en_name: this.category.en_name,
                         storageId: this.storageId
                     }
                     const axiosConfig = {
@@ -440,9 +397,9 @@
                     const errorAlert = document.getElementsByClassName('alert-danger')[0]
                     const API_URL = 'http://localhost:5000/api/admin/add/subcategory'
                     const postData = {
-                        tm_name: this.tm_name3,
-                        ru_name: this.ru_name3,
-                        en_name: this.en_name3,
+                        tm_name: this.subcategory.tm_name,
+                        ru_name: this.subcategory.ru_name,
+                        en_name: this.subcategory.en_name,
                         categoryId: this.categoryId
                     }
                     const axiosConfig = {
@@ -478,9 +435,9 @@
                     const errorAlert = document.getElementsByClassName('alert-danger')[0]
                     const API_URL = 'http://localhost:5000/api/admin/add/feature'
                     const postData = {
-                        tm_name: this.tm_name4,
-                        ru_name: this.ru_name4,
-                        en_name: this.en_name4
+                        tm_name: this.feature.tm_name,
+                        ru_name: this.feature.ru_name,
+                        en_name: this.feature.en_name
                     }
                     const axiosConfig = {
                         headers: {
