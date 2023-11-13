@@ -5,15 +5,11 @@
 </template>
 
 <script>
-    import { RouterView, RouterLink } from 'vue-router'
+    import { RouterView } from 'vue-router'
     export default {
+      name: "App",
       components: {
-            RouterView
-        },
-        data() {
-          return {
-            
-          }
-        }
+        RouterView
+      }
     }
 </script>

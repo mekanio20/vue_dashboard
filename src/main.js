@@ -1,6 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/router'
+import { appAxios } from './api'
+import store from './store'
 import './style.css'
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+    
+app.use(router)
+app.use(store)
+app.config.globalProperties.$appAxios = appAxios
+app.mount('#app')

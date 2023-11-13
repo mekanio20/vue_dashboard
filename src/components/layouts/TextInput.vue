@@ -1,6 +1,6 @@
 <template>
     <div class="mb-3">
-        <label class="form-label required">{{ label }}</label>
+        <label class="form-label" :class="{'required': required}">{{ label }}</label>
         <input type="text" class="form-control" :placeholder="placeholder" 
             @input="$emit('update:modelValue', $event.target.value)" :value="modelValue">
     </div>
@@ -21,6 +21,10 @@
             placeholder: {
                 type: String,
                 default: ''
+            },
+            required: {
+                type: Boolean,
+                default: false
             }
         },
         emits: ['update:modelValue']
