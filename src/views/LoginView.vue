@@ -69,9 +69,15 @@ export default {
         }
         const response = await this.$appAxios.post('/user/login', postData)
         if (response && response.data.type === "success") {
-          this.$store.commit("setToken", response.data.token)
-          this.$store.state.authStatus = true
-          this.$router.push({ name: "Admin" })
+          let group = await response.data.detail.groupId
+          if (group === 1 || group === 2) {
+            localStorage.setItem("Authorization", `Bearer ${response.data.token}`)
+            this.$store.commit("setToken", response.data.token)
+            this.$store.state.authStatus = true
+            this.$router.push({ name: "Admin" })
+          } else {
+            this.errorMessage("Admin tapylmady!")
+          }
         }
       } catch (error) {
         this.errorMessage(error.response.data.msg)

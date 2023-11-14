@@ -139,12 +139,38 @@
                                             <div class="card-body">
                                                 <div class="mb-3">
                                                     <label class="form-label required">desc</label>
-                                                    <input v-model="desc" class="form-control" placeholder="tm_name">
+                                                    <input v-model="desc" class="form-control" placeholder="desc">
                                                 </div>
                                                 <label class="form-label required">Feature selection</label>
                                                 <select v-model="featureId" class="form-select">
                                                     <option v-for="feature in features.detail" :key="feature.id"
                                                         :value="feature.id">{{ feature.tm_name }}</option>
+                                                </select>
+                                            </div>
+                                            <FormButton />
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row row-cards">
+                                        <form @submit.prevent="addSubCategoryFeature" class="card">
+                                            <div class="card-header">
+                                                <h2 class="card-title">
+                                                    Add Subcategory Feature
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label required">Feature selection</label>
+                                                    <select v-model="featureId" class="form-select">
+                                                        <option v-for="feature in features.detail" :key="feature.id"
+                                                            :value="feature.id">{{ feature.tm_name }}</option>
+                                                    </select>
+                                                </div>
+                                                <label class="form-label required">Subcategory selection</label>
+                                                <select v-model="subcategoryId" class="form-select">
+                                                    <option v-for="subcategory in subcategories.detail" :key="subcategory.id"
+                                                        :value="subcategory.id">{{ subcategory.tm_name }}</option>
                                                 </select>
                                             </div>
                                             <FormButton />
@@ -236,11 +262,13 @@ export default {
             groupId: 0,
             storageId: 0,
             categoryId: 0,
+            subcategoryId: 0,
             featureId: 0,
             groups: [],
             storages: [],
             categories: [],
             features: [],
+            subcategories: [],
             successAlert: null,
             errorAlert: null
         }
@@ -249,7 +277,8 @@ export default {
         await this.allGroups(),
         await this.allStorages(),
         await this.allCategories(),
-        await this.allFeatures()
+        await this.allFeatures(),
+        await this.allSubcategories()
     },
     methods: {
         async successMessage(msg) {
@@ -277,7 +306,13 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/group', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -297,7 +332,13 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/permission', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -317,7 +358,13 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/storage', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -338,7 +385,13 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/category', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -359,7 +412,13 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/subcategory', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -379,7 +438,13 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/feature', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -398,7 +463,38 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/feature/desc', postData, axiosConfig)
-                    .then((res) => { this.successMessage(res.data.msg) })
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
+                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async addSubCategoryFeature() {
+            try {
+                const postData = {
+                    subcategoryId: this.subcategoryId,
+                    featureId: this.featureId
+                }
+                const axiosConfig = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('Authorization')}`
+                    }
+                }
+                this.$appAxios.post('/admin/add/subcategory/feature', postData, axiosConfig)
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
@@ -441,6 +537,14 @@ export default {
             } catch (error) {
                 console.log(err)
             }
+        },
+        async allSubcategories() {
+            try {
+                const response = await this.$appAxios.get('/user/subcategories')
+                this.subcategories = response.data
+            } catch (error) {
+                console.log(err)
+            }
         }
     }
 }
@@ -480,5 +584,4 @@ export default {
 .block {
     display: block;
 }
-
 </style>
