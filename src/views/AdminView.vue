@@ -177,6 +177,32 @@
                                         </form>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="row row-cards">
+                                        <form @submit.prevent="addBrand" class="card">
+                                            <div class="card-header">
+                                                <h2 class="card-title">
+                                                    Add Brand
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <TextInput label="Brand" placeholder="brand_name"
+                                                    v-model="brand_name" required="true"></TextInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label required">Brand image</label>
+                                                    <input id="brand_img" type="file" class="form-control" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <TextInput label="Description" placeholder="brand_description"
+                                                    v-model="brand_desc"></TextInput>
+                                                </div>
+                                            </div>
+                                            <FormButton />
+                                        </form>
+                                    </div>
+                                </div>
                                 <div class="col-lg-8">
                                     <div class="col-12">
                                         <form @submit.prevent="addPermission" class="card">
@@ -235,6 +261,8 @@ export default {
     },
     data() {
         return {
+            brand_name: '',
+            brand_desc: '',
             group_name: '',
             method: '',
             desc: '',
@@ -500,6 +528,33 @@ export default {
                 console.log(error)
             }
         },
+        async addBrand() {
+            try {
+                const fileInput = document.getElementById('brand_img')
+                const file = fileInput.files[0]
+                const formData = new FormData()
+                formData.append('name', this.brand_name)
+                formData.append('desc', this.brand_desc)
+                formData.append('brand_img', file, file.name)
+                const axiosConfig = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `${localStorage.getItem('Authorization')}`
+                    }
+                }
+                this.$appAxios.post('/admin/add/brand', formData, axiosConfig)
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
+                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+            } catch (error) {
+                console.log(error)
+            }
+        },
         // GET
         async allGroups() {
             try {
@@ -511,7 +566,7 @@ export default {
                 const response = await this.$appAxios.get('/admin/all/groups', axiosConfig)
                 this.groups = response.data
             } catch (error) {
-                console.log(err)
+                console.log(error)
             }
         },
         async allStorages() {
@@ -519,7 +574,7 @@ export default {
                 const response = await this.$appAxios.get('/user/storages')
                 this.storages = response.data
             } catch (error) {
-                console.log(err)
+                console.log(error)
             }
         },
         async allCategories() {
@@ -527,7 +582,7 @@ export default {
                 const response = await this.$appAxios.get('/user/categories')
                 this.categories = response.data
             } catch (error) {
-                console.log(err)
+                console.log(error)
             }
         },
         async allFeatures() {
@@ -535,7 +590,7 @@ export default {
                 const response = await this.$appAxios.get('/user/features')
                 this.features = response.data
             } catch (error) {
-                console.log(err)
+                console.log(error)
             }
         },
         async allSubcategories() {
@@ -543,7 +598,7 @@ export default {
                 const response = await this.$appAxios.get('/user/subcategories')
                 this.subcategories = response.data
             } catch (error) {
-                console.log(err)
+                console.log(error)
             }
         }
     }
