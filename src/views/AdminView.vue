@@ -203,6 +203,28 @@
                                         </form>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="row row-cards">
+                                        <form @submit.prevent="addSubscription" class="card">
+                                            <div class="card-header">
+                                                <h2 class="card-title">
+                                                    Add Subscription
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <TextInput label="Name" placeholder="name"
+                                                    v-model="subscription.name" required="true"></TextInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Order" placeholder="order"
+                                                    v-model="subscription.order" required="true"></NumberInput>
+                                                </div>
+                                            </div>
+                                            <FormButton />
+                                        </form>
+                                    </div>
+                                </div>
                                 <div class="col-lg-8">
                                     <div class="col-12">
                                         <form @submit.prevent="addPermission" class="card">
@@ -250,6 +272,7 @@
 import Header from '@/components/Header.vue'
 import Navbar from '@/components/Navbar.vue'
 import TextInput from '@/components/layouts/TextInput.vue'
+import NumberInput from '@/components/layouts/NumberInput.vue'
 import FormButton from '@/components/layouts/FormButton.vue'
 export default {
     name: "Admin",
@@ -257,6 +280,7 @@ export default {
         Header,
         Navbar,
         TextInput,
+        NumberInput,
         FormButton
     },
     data() {
@@ -286,6 +310,10 @@ export default {
                 tm_name: '',
                 ru_name: '',
                 en_name: ''
+            },
+            subscription: {
+                name: '',
+
             },
             groupId: 0,
             storageId: 0,
@@ -600,6 +628,9 @@ export default {
             } catch (error) {
                 console.log(error)
             }
+        },
+        async addSubscription() {
+            
         }
     }
 }
