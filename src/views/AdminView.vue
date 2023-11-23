@@ -169,8 +169,9 @@
                                                 </div>
                                                 <label class="form-label required">Subcategory selection</label>
                                                 <select v-model="subcategoryId" class="form-select">
-                                                    <option v-for="subcategory in subcategories.detail" :key="subcategory.id"
-                                                        :value="subcategory.id">{{ subcategory.tm_name }}</option>
+                                                    <option v-for="subcategory in subcategories.detail"
+                                                        :key="subcategory.id" :value="subcategory.id">{{ subcategory.tm_name
+                                                        }}</option>
                                                 </select>
                                             </div>
                                             <FormButton />
@@ -187,8 +188,8 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="mb-3">
-                                                    <TextInput label="Brand" placeholder="brand_name"
-                                                    v-model="brand_name" required="true"></TextInput>
+                                                    <TextInput label="Brand" placeholder="brand_name" v-model="brand_name"
+                                                        required="true"></TextInput>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label required">Brand image</label>
@@ -196,7 +197,7 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <TextInput label="Description" placeholder="brand_description"
-                                                    v-model="brand_desc"></TextInput>
+                                                        v-model="brand_desc"></TextInput>
                                                 </div>
                                             </div>
                                             <FormButton />
@@ -213,12 +214,49 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="mb-3">
-                                                    <TextInput label="Name" placeholder="name"
-                                                    v-model="subscription.name" required="true"></TextInput>
+                                                    <TextInput label="Name" placeholder="name" v-model="subscription.name"
+                                                        required="true"></TextInput>
                                                 </div>
                                                 <div class="mb-3">
                                                     <NumberInput label="Order" placeholder="order"
-                                                    v-model="subscription.order" required="true"></NumberInput>
+                                                        v-model="subscription.order" required="true"></NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Product limit" placeholder="limit"
+                                                        v-model="subscription.product_limit" required="true"></NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Product image limit" placeholder="limit"
+                                                        v-model="subscription.product_image_limit" required="true">
+                                                    </NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Seller banner limit" placeholder="limit"
+                                                        v-model="subscription.seller_banner_limit" required="true">
+                                                    </NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Main banner limit" placeholder="limit"
+                                                        v-model="subscription.main_banner_limit" required="true">
+                                                    </NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Notification limit" placeholder="limit"
+                                                        v-model="subscription.notification_limit" required="true">
+                                                    </NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <NumberInput label="Voucher limit" placeholder="limit"
+                                                        v-model="subscription.voucher_limit" required="true">
+                                                    </NumberInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <BooleanInput label="Smm support" v-model="subscription.smm_support">
+                                                    </BooleanInput>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <BooleanInput label="Tech support" v-model="subscription.tech_support">
+                                                    </BooleanInput>
                                                 </div>
                                             </div>
                                             <FormButton />
@@ -273,6 +311,7 @@ import Header from '@/components/Header.vue'
 import Navbar from '@/components/Navbar.vue'
 import TextInput from '@/components/layouts/TextInput.vue'
 import NumberInput from '@/components/layouts/NumberInput.vue'
+import BooleanInput from '@/components/layouts/BooleanInput.vue'
 import FormButton from '@/components/layouts/FormButton.vue'
 export default {
     name: "Admin",
@@ -281,6 +320,7 @@ export default {
         Navbar,
         TextInput,
         NumberInput,
+        BooleanInput,
         FormButton
     },
     data() {
@@ -313,7 +353,15 @@ export default {
             },
             subscription: {
                 name: '',
-
+                order: null,
+                product_limit: null,
+                product_image_limit: null,
+                seller_banner_limit: null,
+                main_banner_limit: null,
+                notification_limit: null,
+                voucher_limit: null,
+                smm_support: false,
+                tech_support: false
             },
             groupId: 0,
             storageId: 0,
@@ -583,6 +631,40 @@ export default {
                 console.log(error)
             }
         },
+        async addSubscription() {
+            try {
+                const postData = {
+                    name: this.subscription.name,
+                    order: this.subscription.order,
+                    p_limit: this.subscription.product_limit,
+                    p_img_limit: this.subscription.product_image_limit,
+                    seller_banner_limit: this.subscription.seller_banner_limit,
+                    main_banner_limit: this.subscription.main_banner_limit,
+                    ntf_limit: this.subscription.notification_limit,
+                    voucher_limit: this.subscription.voucher_limit,
+                    smm_support: this.subscription.smm_support,
+                    tech_support: this.subscription.tech_support
+                }
+                console.log(postData);
+                const axiosConfig = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('Authorization')}`
+                    }
+                }
+                this.$appAxios.post('/admin/add/subscription', postData, axiosConfig)
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
+                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+            } catch (error) {
+                console.log(error)
+            }
+        },
         // GET
         async allGroups() {
             try {
@@ -628,9 +710,6 @@ export default {
             } catch (error) {
                 console.log(error)
             }
-        },
-        async addSubscription() {
-            
         }
     }
 }
