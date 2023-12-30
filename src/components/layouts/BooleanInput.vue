@@ -1,11 +1,9 @@
 <template>
-    <div class="mb-3">
-        <label class="form-check">
-            <input class="form-check-input" type="checkbox"
-                @input="$emit('update:modelValue', $event.target.value)" :value="modelValue">
-            <span class="form-check-label">{{ label }}</span>
-        </label>
-    </div>
+    <label class="form-check">
+        <input class="form-check-input" type="checkbox" @change="$emit('update:modelValue', $event.target.checked)"
+            :checked="modelValue">
+        <span class="form-check-label">{{ label }}</span>
+    </label>
 </template>
 
 <script>
@@ -14,7 +12,7 @@ export default {
     props: {
         modelValue: {
             type: Boolean,
-            default: true
+            default: false
         },
         label: {
             type: String,

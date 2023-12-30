@@ -330,7 +330,7 @@ export default {
             group_name: '',
             method: '',
             desc: '',
-            url: '/api',
+            url: '/api/',
             storage: {
                 tm_name: '',
                 ru_name: '',
