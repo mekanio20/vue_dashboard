@@ -6,38 +6,76 @@
         }}</div>
         <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
         </div>
-        <div class="col-lg-8 mb-3">
-            <div class="col-12">
-                <form @submit.prevent="addPermission" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Add Permission</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row row-cards">
-                            <div class="mb-3 col-sm-4 col-md-2">
-                                <label class="form-label required">Method</label>
-                                <select v-model="method" class="form-select">
-                                    <option value="GET">GET</option>
-                                    <option value="POST">POST</option>
-                                    <option value="PUT">PUT</option>
-                                    <option value="DELETE">DELETE</option>
-                                </select>
-                            </div>
-                            <div class="mb-3 col-sm-4 col-md-3">
-                                <label class="form-label required">Group</label>
-                                <select v-model="groupId" class="form-select">
-                                    <option v-for="group in groups.detail" :key="group.id" :value="group.id">{{ group.name
-                                    }}</option>
-                                </select>
-                            </div>
-                            <div class="mb-3 col-sm-8 col-md-10">
-                                <label class="form-label required">URL</label>
-                                <input v-model="url" class="form-control">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="col-12">
+                    <form @submit.prevent="addPermission" class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Permission</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row row-cards">
+                                <div class="mb-3 col-sm-4 col-md-3">
+                                    <label class="form-label required">Method</label>
+                                    <select v-model="post.method" class="form-select">
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="DELETE">DELETE</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-4 col-md-4">
+                                    <label class="form-label required">Group</label>
+                                    <select v-model="post.groupId" class="form-select">
+                                        <option v-for="group in groups.detail" :key="group.id" :value="group.id">{{
+                                            group.name
+                                        }}</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-8 col-md-8">
+                                    <label class="form-label required">URL</label>
+                                    <input v-model="post.url" class="form-control">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <FormButton />
-                </form>
+                        <FormButton />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="col-12">
+                    <form @submit.prevent="updatePermission" class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Update Permission</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row row-cards">
+                                <div class="mb-3 col-sm-4 col-md-3">
+                                    <label class="form-label required">Method</label>
+                                    <select v-model="update.method" class="form-select">
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="DELETE">DELETE</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-4 col-md-4">
+                                    <label class="form-label required">Group</label>
+                                    <select v-model="update.groupId" class="form-select">
+                                        <option v-for="group in groups.detail" :key="group.id" :value="group.id">{{
+                                            group.name
+                                        }}</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-8 col-md-8">
+                                    <label class="form-label required">URL</label>
+                                    <input v-model="update.url" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <FormButton />
+                    </form>
+                </div>
             </div>
         </div>
         <div class="col-12">
@@ -53,9 +91,11 @@
                                         aria-label="Select all invoices"></th>
                                 <th class="w-1">#Id</th>
                                 <th>Url</th>
+                                <th>Method</th>
                                 <th>Role</th>
                                 <th>CreatedAt</th>
                                 <th>UpdatedAt</th>
+                                <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,9 +104,19 @@
                                         aria-label="Select invoice"></td>
                                 <td><span class="text-secondary">#{{ item.id }}</span></td>
                                 <td>{{ item.url }}</td>
+                                <td>{{ item.method }}</td>
                                 <td>{{ item.group.name }}</td>
                                 <td>{{ item.createdAt }}</td>
                                 <td>{{ item.updatedAt }}</td>
+                                <td>
+                                    <button class="btn" @click="
+                                        update.id = item.id,
+                                        update.url = item.url, 
+                                        update.method = item.method,
+                                        update.groupId = item.group.id
+                                        ">Edit
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -125,9 +175,17 @@ export default {
             successAlert: null,
             errorAlert: null,
             groups: [],
-            url: '/api/',
-            method: '',
-            groupId: 0
+            post: {
+                url: '/api/',
+                method: '',
+                groupId: 0,
+            },
+            update: {
+                id: 0,
+                url: '/api/',
+                method: '',
+                groupId: 0
+            }
         }
     },
     async created() {
@@ -147,6 +205,7 @@ export default {
                 this.errorAlert = null
             }, 3000)
         },
+        // GET
         async allGroups() {
             try {
                 const axiosConfig = {
@@ -173,12 +232,13 @@ export default {
                 console.log(error)
             }
         },
+        // POST
         async addPermission() {
             try {
                 const postData = {
-                    url: this.url,
-                    method: this.method,
-                    groupId: this.groupId
+                    url: this.post.url,
+                    method: this.post.method,
+                    groupId: this.post.groupId
                 }
                 const axiosConfig = {
                     headers: {
@@ -199,6 +259,34 @@ export default {
                 console.log(error)
             }
         },
+        // PUT
+        async updatePermission() {
+            try {
+                const updateData = {
+                    id: this.update.id,
+                    url: this.update.url,
+                    method: this.update.method,
+                    groupId: this.update.groupId
+                }
+                const axiosConfig = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('Authorization')}`
+                    }
+                }
+                this.$appAxios.post('/admin/update/permission', updateData, axiosConfig)
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                        }
+                    })
+                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 }
 </script>

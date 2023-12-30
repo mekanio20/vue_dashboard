@@ -263,40 +263,6 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-lg-8">
-                                    <div class="col-12">
-                                        <form @submit.prevent="addPermission" class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Add Permission</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row row-cards">
-                                                    <div class="mb-3 col-sm-4 col-md-2">
-                                                        <label class="form-label required">Method</label>
-                                                        <select v-model="method" class="form-select">
-                                                            <option value="GET">GET</option>
-                                                            <option value="POST">POST</option>
-                                                            <option value="PUT">PUT</option>
-                                                            <option value="DELETE">DELETE</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3 col-sm-4 col-md-3">
-                                                        <label class="form-label required">Group</label>
-                                                        <select v-model="groupId" class="form-select">
-                                                            <option v-for="group in groups.detail" :key="group.id"
-                                                                :value="group.id">{{ group.name }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3 col-sm-8 col-md-10">
-                                                        <label class="form-label required">URL</label>
-                                                        <input v-model="url" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -328,9 +294,7 @@ export default {
             brand_name: '',
             brand_desc: '',
             group_name: '',
-            method: '',
             desc: '',
-            url: '/api/',
             storage: {
                 tm_name: '',
                 ru_name: '',
@@ -363,12 +327,10 @@ export default {
                 smm_support: false,
                 tech_support: false
             },
-            groupId: 0,
             storageId: 0,
             categoryId: 0,
             subcategoryId: 0,
             featureId: 0,
-            groups: [],
             storages: [],
             categories: [],
             features: [],
@@ -378,7 +340,6 @@ export default {
         }
     },
     async created() {
-        await this.allGroups(),
         await this.allStorages(),
         await this.allCategories(),
         await this.allFeatures(),
@@ -410,32 +371,6 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/group', postData, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
-            } catch (error) {
-                console.log(error)
-            }
-        },
-        async addPermission() {
-            try {
-                const postData = {
-                    url: this.url,
-                    method: this.method,
-                    groupId: this.groupId
-                }
-                const axiosConfig = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                this.$appAxios.post('/admin/add/permission', postData, axiosConfig)
                     .then((res) => {
                         if (res.data.type === 'error') {
                             this.errorMessage(res.data.msg)
@@ -666,19 +601,6 @@ export default {
             }
         },
         // GET
-        async allGroups() {
-            try {
-                const axiosConfig = {
-                    headers: {
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                const response = await this.$appAxios.get('/admin/all/groups', axiosConfig)
-                this.groups = response.data
-            } catch (error) {
-                console.log(error)
-            }
-        },
         async allStorages() {
             try {
                 const response = await this.$appAxios.get('/user/storages')
