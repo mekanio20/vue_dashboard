@@ -87,21 +87,18 @@
                     <table class="table card-table table-vcenter text-nowrap datatable">
                         <thead>
                             <tr>
-                                <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
-                                        aria-label="Select all invoices"></th>
-                                <th class="w-1">#Id</th>
+                                <th>#Id</th>
                                 <th>Url</th>
                                 <th>Method</th>
                                 <th>Role</th>
                                 <th>CreatedAt</th>
                                 <th>UpdatedAt</th>
                                 <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in permissions.detail" :key="item.id">
-                                <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                        aria-label="Select invoice"></td>
                                 <td><span class="text-secondary">#{{ item.id }}</span></td>
                                 <td>{{ item.url }}</td>
                                 <td>{{ item.method }}</td>
@@ -109,13 +106,16 @@
                                 <td>{{ item.createdAt }}</td>
                                 <td>{{ item.updatedAt }}</td>
                                 <td>
-                                    <button class="btn" @click="
+                                    <button class="btn btn-blue" @click="
                                         update.id = item.id,
                                         update.url = item.url, 
                                         update.method = item.method,
                                         update.groupId = item.group.id
                                         ">Edit
                                     </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" @click="deletePermission(item.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -252,6 +252,7 @@ export default {
                             this.errorMessage(res.data.msg)
                         } else {
                             this.successMessage(res.data.msg)
+                            this.allPermissions()
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
@@ -280,12 +281,31 @@ export default {
                             this.errorMessage(res.data.msg)
                         } else {
                             this.successMessage(res.data.msg)
+                            this.allPermissions()
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
             }
+        },
+        // DELETE
+        async deletePermission(id) {
+            try {
+                const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
+                this.$appAxios.delete(`/admin/delete/permission/${id}`, axiosConfig)
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                            this.allPermissions()
+                        }
+                    })
+                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+            } catch (error) {
+                console.log(error)
+            } 
         }
     }
 }
