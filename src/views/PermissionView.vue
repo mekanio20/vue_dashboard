@@ -2,9 +2,11 @@
     <Header />
     <Navbar />
     <div class="container-xl mt-3 mb-6">
-        <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{ successAlert
-        }}</div>
-        <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
+        <div class="row">
+            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{ successAlert
+            }}</div>
+            <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-6 mb-3">
@@ -73,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        <FormButton />
+                        <FormButton :dataLength="dataLength" />
                     </form>
                 </div>
             </div>
@@ -98,7 +100,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in permissions.detail" :key="item.id">
+                            <tr v-for="item in permissions" :key="item.id">
                                 <td><span class="text-secondary">#{{ item.id }}</span></td>
                                 <td>{{ item.url }}</td>
                                 <td>{{ item.method }}</td>
@@ -108,7 +110,7 @@
                                 <td>
                                     <button class="btn btn-blue" @click="
                                         update.id = item.id,
-                                        update.url = item.url, 
+                                        update.url = item.url,
                                         update.method = item.method,
                                         update.groupId = item.group.id
                                         ">Edit
@@ -121,38 +123,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer d-flex align-items-center">
-                    <p class="m-0 text-secondary">Page <span>1</span> limit <span>10</span></p>
-                    <ul class="pagination m-0 ms-auto">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M15 6l-6 6l6 6" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M9 6l6 6l-6 6" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <Paginator :dataLength=dataLength :itemsPerPage=10 />
             </div>
         </div>
     </div>
@@ -161,12 +132,14 @@
 <script>
 import Header from '@/components/Header.vue'
 import Navbar from '@/components/Navbar.vue'
+import Paginator from '@/components/Paginator.vue'
 import FormButton from '@/components/layouts/FormButton.vue'
 export default {
     name: "Permissions",
     components: {
         Header,
         Navbar,
+        Paginator,
         FormButton
     },
     data() {
@@ -174,6 +147,7 @@ export default {
             permissions: null,
             successAlert: null,
             errorAlert: null,
+            dataLength: 0,
             groups: [],
             post: {
                 url: '/api/',
@@ -185,6 +159,11 @@ export default {
                 url: '/api/',
                 method: '',
                 groupId: 0
+            },
+            paginator: {
+                currentPage: 1,
+                itemsPerPage: 10,
+                totalItems: 100,
             }
         }
     },
@@ -219,15 +198,16 @@ export default {
                 console.log(error)
             }
         },
-        async allPermissions() {
+        async allPermissions(query) {
             try {
                 const axiosConfig = {
                     headers: {
                         'Authorization': `${localStorage.getItem('Authorization')}`
                     }
                 }
-                const response = await this.$appAxios.get('/admin/all/permissions', axiosConfig)
-                this.permissions = response.data
+                const response = await this.$appAxios.get(`/admin/all/permissions?page=`, axiosConfig)
+                this.permissions = response.data.detail.rows
+                this.dataLength = response.data.detail.count
             } catch (error) {
                 console.log(error)
             }
@@ -305,7 +285,7 @@ export default {
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
             } catch (error) {
                 console.log(error)
-            } 
+            }
         }
     }
 }
