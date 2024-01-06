@@ -4,7 +4,7 @@
             <div class="navbar">
                 <div class="container-xl">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/home -->
@@ -22,7 +22,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/login">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/home -->
@@ -35,6 +35,36 @@
                                 </span>
                                 <span class="nav-link-title">
                                     Login
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/permissions">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <img src="../../public/svg/access-locked-svgrepo-com.svg">
+                                </span>
+                                <span class="nav-link-title">
+                                    Permissions
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/subscriptions">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <img src="../../public/svg/magazines-svgrepo-com.svg">
+                                </span>
+                                <span class="nav-link-title">
+                                    Subscriptions
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/brands">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <img src="../../public/svg/brand-dribbble-svgrepo-com.svg">
+                                </span>
+                                <span class="nav-link-title">
+                                    Brands
                                 </span>
                             </a>
                         </li>

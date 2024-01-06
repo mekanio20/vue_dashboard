@@ -178,91 +178,6 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addBrand" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Brand
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="mb-3">
-                                                    <TextInput label="Brand" placeholder="brand_name" v-model="brand_name"
-                                                        required="true"></TextInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label required">Brand image</label>
-                                                    <input id="brand_img" type="file" class="form-control" />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <TextInput label="Description" placeholder="brand_description"
-                                                        v-model="brand_desc"></TextInput>
-                                                </div>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addSubscription" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Subscription
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="mb-3">
-                                                    <TextInput label="Name" placeholder="name" v-model="subscription.name"
-                                                        required="true"></TextInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Order" placeholder="order"
-                                                        v-model="subscription.order" required="true"></NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Product limit" placeholder="limit"
-                                                        v-model="subscription.product_limit" required="true"></NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Product image limit" placeholder="limit"
-                                                        v-model="subscription.product_image_limit" required="true">
-                                                    </NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Seller banner limit" placeholder="limit"
-                                                        v-model="subscription.seller_banner_limit" required="true">
-                                                    </NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Main banner limit" placeholder="limit"
-                                                        v-model="subscription.main_banner_limit" required="true">
-                                                    </NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Notification limit" placeholder="limit"
-                                                        v-model="subscription.notification_limit" required="true">
-                                                    </NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <NumberInput label="Voucher limit" placeholder="limit"
-                                                        v-model="subscription.voucher_limit" required="true">
-                                                    </NumberInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <BooleanInput label="Smm support" v-model="subscription.smm_support">
-                                                    </BooleanInput>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <BooleanInput label="Tech support" v-model="subscription.tech_support">
-                                                    </BooleanInput>
-                                                </div>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -291,8 +206,6 @@ export default {
     },
     data() {
         return {
-            brand_name: '',
-            brand_desc: '',
             group_name: '',
             desc: '',
             storage: {
@@ -314,18 +227,6 @@ export default {
                 tm_name: '',
                 ru_name: '',
                 en_name: ''
-            },
-            subscription: {
-                name: '',
-                order: null,
-                product_limit: null,
-                product_image_limit: null,
-                seller_banner_limit: null,
-                main_banner_limit: null,
-                notification_limit: null,
-                voucher_limit: null,
-                smm_support: false,
-                tech_support: false
             },
             storageId: 0,
             categoryId: 0,
@@ -539,67 +440,6 @@ export default {
                 console.log(error)
             }
         },
-        async addBrand() {
-            try {
-                const fileInput = document.getElementById('brand_img')
-                const file = fileInput.files[0]
-                const formData = new FormData()
-                formData.append('name', this.brand_name)
-                formData.append('desc', this.brand_desc)
-                formData.append('brand_img', file, file.name)
-                const axiosConfig = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                this.$appAxios.post('/admin/add/brand', formData, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
-            } catch (error) {
-                console.log(error)
-            }
-        },
-        async addSubscription() {
-            try {
-                const postData = {
-                    name: this.subscription.name,
-                    order: this.subscription.order,
-                    p_limit: this.subscription.product_limit,
-                    p_img_limit: this.subscription.product_image_limit,
-                    seller_banner_limit: this.subscription.seller_banner_limit,
-                    main_banner_limit: this.subscription.main_banner_limit,
-                    ntf_limit: this.subscription.notification_limit,
-                    voucher_limit: this.subscription.voucher_limit,
-                    smm_support: this.subscription.smm_support,
-                    tech_support: this.subscription.tech_support
-                }
-                console.log(postData);
-                const axiosConfig = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                this.$appAxios.post('/admin/add/subscription', postData, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
-            } catch (error) {
-                console.log(error)
-            }
-        },
         // GET
         async allStorages() {
             try {
@@ -644,31 +484,4 @@ export default {
 @import '@/assets/css/tabler-payments.min.css';
 @import '@/assets/css/tabler-vendors.min.css';
 @import '@/assets/css/demo.min.css';
-
-.alert {
-    width: 80%;
-    margin: 10px auto;
-    position: relative;
-    padding: 0.75rem 1.25rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    display: none;
-}
-
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    display: none;
-}
-
-.block {
-    display: block;
-}
 </style>

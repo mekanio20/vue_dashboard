@@ -8,6 +8,52 @@
             <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
             </div>
         </div>
+        <div class="col-12 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Permissions</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table card-table table-vcenter text-nowrap datatable">
+                        <thead>
+                            <tr>
+                                <th>#Id</th>
+                                <th>Url</th>
+                                <th>Method</th>
+                                <th>Role</th>
+                                <th>CreatedAt</th>
+                                <th>UpdatedAt</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in permissions" :key="item.id">
+                                <td>#{{ item.id }}</td>
+                                <td>{{ item.url }}</td>
+                                <td>{{ item.method }}</td>
+                                <td>{{ item.group.name }}</td>
+                                <td>{{ item.createdAt }}</td>
+                                <td>{{ item.updatedAt }}</td>
+                                <td>
+                                    <a href="#update" class="btn btn-blue" @click="
+                                        update.id = item.id,
+                                        update.url = item.url,
+                                        update.method = item.method,
+                                        update.groupId = item.group.id
+                                        ">Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" @click="deletePermission(item.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <Paginator :dataLength=dataLength :itemsPerPage=10 />
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6 mb-3">
                 <div class="col-12">
@@ -44,7 +90,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-lg-6 mb-3">
+            <div id="update" class="col-lg-6 mb-3">
                 <div class="col-12">
                     <form @submit.prevent="updatePermission" class="card">
                         <div class="card-header">
@@ -78,52 +124,6 @@
                         <FormButton :dataLength="dataLength" />
                     </form>
                 </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Permissions</h3>
-                </div>
-                <div class="table-responsive">
-                    <table class="table card-table table-vcenter text-nowrap datatable">
-                        <thead>
-                            <tr>
-                                <th>#Id</th>
-                                <th>Url</th>
-                                <th>Method</th>
-                                <th>Role</th>
-                                <th>CreatedAt</th>
-                                <th>UpdatedAt</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in permissions" :key="item.id">
-                                <td><span class="text-secondary">#{{ item.id }}</span></td>
-                                <td>{{ item.url }}</td>
-                                <td>{{ item.method }}</td>
-                                <td>{{ item.group.name }}</td>
-                                <td>{{ item.createdAt }}</td>
-                                <td>{{ item.updatedAt }}</td>
-                                <td>
-                                    <button class="btn btn-blue" @click="
-                                        update.id = item.id,
-                                        update.url = item.url,
-                                        update.method = item.method,
-                                        update.groupId = item.group.id
-                                        ">Edit
-                                    </button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger" @click="deletePermission(item.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <Paginator :dataLength=dataLength :itemsPerPage=10 />
             </div>
         </div>
     </div>
@@ -236,6 +236,7 @@ export default {
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
+                window.scroll(0,0)
             } catch (error) {
                 console.log(error)
             }
@@ -265,6 +266,7 @@ export default {
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
+                window.scroll(0,0)
             } catch (error) {
                 console.log(error)
             }
@@ -272,17 +274,20 @@ export default {
         // DELETE
         async deletePermission(id) {
             try {
-                const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
-                this.$appAxios.delete(`/admin/delete/permission/${id}`, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                            this.allPermissions()
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+                if (confirm('Bu maglumaty pozmak isleýärsiňizmi?')) {
+                    const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
+                    this.$appAxios.delete(`/admin/delete/permission/${id}`, axiosConfig)
+                        .then((res) => {
+                            if (res.data.type === 'error') {
+                                this.errorMessage(res.data.msg)
+                            } else {
+                                this.successMessage(res.data.msg)
+                                this.allPermissions()
+                            }
+                        })
+                        .catch((err) => { this.errorMessage(err.response.data.msg) })
+                }
+                window.scroll(0,0)
             } catch (error) {
                 console.log(error)
             }

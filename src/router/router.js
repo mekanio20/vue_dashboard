@@ -5,6 +5,7 @@ const routes = [
     { path: '/admin', name: 'Admin', component: () => import('@/views/AdminView.vue') },
     { path: '/permissions', name: 'Permissions', component: () => import('@/views/PermissionView.vue') },
     { path: '/subscriptions', name: 'Subscriptions', component: () => import('@/views/SubscriptionView.vue') },
+    { path: '/brands', name: 'Brands', component: () => import('@/views/BrandView.vue') },
 ]
 
 const router = createRouter({

@@ -43,7 +43,7 @@
                                 <td>{{ item.voucher_limit }}</td>
                                 <td>{{ item.price }} tmt</td>
                                 <td>
-                                    <button class="btn btn-blue" @click="
+                                    <a href="#update" class="btn btn-blue" @click="
                                         subscription__update.id = item.id,
                                         subscription__update.name = item.name,
                                         subscription__update.price = item.price,
@@ -56,7 +56,7 @@
                                         subscription__update.voucher_limit = item.voucher_limit,
                                         subscription__update.smm_support = item.smm_support,
                                         subscription__update.tech_support = item.tech_support
-                                        ">Edit</button>
+                                        ">Edit</a>
                                 </td>
                                 <td>
                                     <button class="btn btn-danger" @click="deleteSubscrpition(item.id)">Delete</button>
@@ -131,7 +131,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div id="update" class="col-lg-4">
                 <div class="row row-cards">
                     <form @submit.prevent="updateSubscription" class="card">
                         <div class="card-header">
@@ -314,6 +314,7 @@ export default {
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
+                window.scroll(0,0)
             } catch (error) {
                 console.log(error)
             }
@@ -351,6 +352,7 @@ export default {
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
+                window.scroll(0,0)
             } catch (error) {
                 console.log(error)
             }
@@ -358,17 +360,20 @@ export default {
         // DELETE
         async deleteSubscrpition(id) {
             try {
-                const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
-                this.$appAxios.delete(`/admin/delete/subscription/${id}`, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                            this.allSubscriptions()
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+                if (confirm('Bu maglumaty pozmak isleýärsiňizmi?')) {
+                    const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
+                    this.$appAxios.delete(`/admin/delete/subscription/${id}`, axiosConfig)
+                        .then((res) => {
+                            if (res.data.type === 'error') {
+                                this.errorMessage(res.data.msg)
+                            } else {
+                                this.successMessage(res.data.msg)
+                                this.allSubscriptions()
+                            }
+                        })
+                        .catch((err) => { this.errorMessage(err.response.data.msg) })
+                }
+                window.scroll(0,0)
             } catch (error) {
                 console.log(error)
             }

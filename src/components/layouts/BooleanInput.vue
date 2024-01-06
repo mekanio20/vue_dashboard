@@ -22,12 +22,3 @@ export default {
     emits: ['update:modelValue']
 }
 </script>
-
-<style>
-@import '@/assets/main.css';
-@import '@/assets/css/tabler.min.css';
-@import '@/assets/css/tabler-flags.min.css';
-@import '@/assets/css/tabler-payments.min.css';
-@import '@/assets/css/tabler-vendors.min.css';
-@import '@/assets/css/demo.min.css';
-</style>
