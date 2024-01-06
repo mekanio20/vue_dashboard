@@ -59,7 +59,7 @@
                                         ">Edit</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger">Delete</button>
+                                    <button class="btn btn-danger" @click="deleteSubscrpition(item.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -342,6 +342,24 @@ export default {
                     }
                 }
                 this.$appAxios.put('/admin/update/subscription', postData, axiosConfig)
+                    .then((res) => {
+                        if (res.data.type === 'error') {
+                            this.errorMessage(res.data.msg)
+                        } else {
+                            this.successMessage(res.data.msg)
+                            this.allSubscriptions()
+                        }
+                    })
+                    .catch((err) => { this.errorMessage(err.response.data.msg) })
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        // DELETE
+        async deleteSubscrpition(id) {
+            try {
+                const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
+                this.$appAxios.delete(`/admin/delete/subscription/${id}`, axiosConfig)
                     .then((res) => {
                         if (res.data.type === 'error') {
                             this.errorMessage(res.data.msg)
