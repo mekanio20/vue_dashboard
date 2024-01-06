@@ -255,7 +255,7 @@ export default {
                         'Authorization': `${localStorage.getItem('Authorization')}`
                     }
                 }
-                this.$appAxios.post('/admin/update/permission', updateData, axiosConfig)
+                this.$appAxios.put('/admin/update/permission', updateData, axiosConfig)
                     .then((res) => {
                         if (res.data.type === 'error') {
                             this.errorMessage(res.data.msg)
