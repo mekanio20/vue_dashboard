@@ -40,7 +40,7 @@
                                     <a href="#update" class="btn btn-blue" @click="
                                         update.brand_id = item.id,
                                         update.brand_name = item.name,
-                                        update.brand_active = item.isActive,
+                                        update.brand_active = String(item.isActive),
                                         update.brand_desc = item.desc
                                         ">Edit
                                     </a>
@@ -75,10 +75,11 @@
                             </div>
                             <div class="mb-3">
                                 <SelectInput label="IsActive" v-model="brand_active" required="false"
-                                    :options="[true, false]" />
+                                    :options="['true', 'false']" />
                             </div>
                             <div class="mb-3">
-                                <TextInput label="Description" placeholder="brand_description" v-model="brand_desc">
+                                <TextInput label="Description" placeholder="brand_description" v-model="brand_desc"
+                                    required="true">
                                 </TextInput>
                             </div>
                         </div>
@@ -97,20 +98,19 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <TextInput label="Brand" placeholder="brand_name" v-model="update.brand_name"
-                                    required="true">
-                                </TextInput>
+                                    required="false" />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label required">Brand image</label>
+                                <label class="form-label">Brand image</label>
                                 <input id="update__brand_img" type="file" class="form-control" />
                             </div>
                             <div class="mb-3">
                                 <SelectInput label="IsActive" v-model="update.brand_active" required="false"
-                                    :options="[true, false]" />
+                                    :options="['true', 'false']" />
                             </div>
                             <div class="mb-3">
-                                <TextInput label="Description" placeholder="brand_description" v-model="update.brand_desc">
-                                </TextInput>
+                                <TextInput label="Description" placeholder="brand_description"
+                                    v-model="update.brand_desc" />
                             </div>
                         </div>
                         <FormButton />
@@ -144,19 +144,20 @@ export default {
             errorAlert: null,
             brands: null,
             brand_name: null,
+            brand_active: null,
             brand_desc: null,
-            brand_active: true,
+            currentPage: 1,
             dataLength: 0,
             update: {
                 brand_id: null,
                 brand_name: null,
                 brand_desc: null,
-                brand_active: true
+                brand_active: null
             }
         }
     },
     async created() {
-        this.allBrands(1)
+        this.allBrands(this.currentPage)
     },
     methods: {
         async successMessage(msg) {
@@ -174,6 +175,7 @@ export default {
         // GET
         async allBrands(page) {
             try {
+                this.currentPage = page
                 const response = await this.$appAxios.get(`/user/brands?status=all&page=${page}`)
                 this.dataLength = Math.ceil(await response.data.detail.count / 10)
                 this.brands = await response.data.detail.rows
@@ -184,12 +186,14 @@ export default {
         // POST
         async addBrand() {
             try {
+                const status = this.brand_active == 'true' ? true : false
                 const fileInput = document.getElementById('brand_img')
                 const file = fileInput.files[0]
                 const formData = new FormData()
+                formData.append('brand_img', file, file.name)
                 formData.append('name', this.brand_name)
                 formData.append('desc', this.brand_desc)
-                formData.append('brand_img', file, file.name)
+                formData.append('isActive', Boolean(status))
                 const axiosConfig = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -202,11 +206,11 @@ export default {
                             this.errorMessage(res.data.msg)
                         } else {
                             this.successMessage(res.data.msg)
-                            this.allBrands()
+                            this.allBrands(this.currentPage)
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
-                window.scroll(0,0)
+                window.scroll(0, 0)
             } catch (error) {
                 console.log(error)
             }
@@ -214,13 +218,14 @@ export default {
         // PUT
         async updateBrand() {
             try {
+                const status = this.update.brand_active == 'true' ? true : false
                 const fileInput = document.getElementById('update__brand_img')
                 const file = fileInput.files[0]
                 const formData = new FormData()
                 formData.append('id', Number(this.update.brand_id))
                 formData.append('name', this.update.brand_name)
                 formData.append('desc', this.update.brand_desc)
-                formData.append('isActive', this.update.brand_active)
+                formData.append('isActive', status)
                 if (file) {
                     formData.append('brand_img', file, file.name)
                 }
@@ -236,11 +241,11 @@ export default {
                             this.errorMessage(res.data.msg)
                         } else {
                             this.successMessage(res.data.msg)
-                            this.allBrands()
+                            this.allBrands(this.currentPage)
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
-                window.scroll(0,0)
+                window.scroll(0, 0)
             } catch (error) {
                 console.log(error)
             }
@@ -256,12 +261,12 @@ export default {
                                 this.errorMessage(res.data.msg)
                             } else {
                                 this.successMessage(res.data.msg)
-                                this.allBrands()
+                                this.allBrands(this.currentPage)
                             }
                         })
                         .catch((err) => { this.errorMessage(err.response.data.msg) })
                 }
-                window.scroll(0,0)
+                window.scroll(0, 0)
             } catch (error) {
                 console.log(error)
             }

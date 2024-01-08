@@ -46,14 +46,14 @@
                                     <a href="#update" class="btn btn-blue" @click="
                                         subscription__update.id = item.id,
                                         subscription__update.name = item.name,
-                                        subscription__update.price = item.price,
-                                        subscription__update.order = item.order,
-                                        subscription__update.product_limit = item.p_limit,
-                                        subscription__update.product_image_limit = item.p_img_limit,
-                                        subscription__update.seller_banner_limit = item.seller_banner_limit,
-                                        subscription__update.main_banner_limit = item.main_banner_limit,
-                                        subscription__update.notification_limit = item.ntf_limit,
-                                        subscription__update.voucher_limit = item.voucher_limit,
+                                        subscription__update.price = String(item.price),
+                                        subscription__update.order = String(item.order),
+                                        subscription__update.product_limit = String(item.p_limit),
+                                        subscription__update.product_image_limit = String(item.p_img_limit),
+                                        subscription__update.seller_banner_limit = String(item.seller_banner_limit),
+                                        subscription__update.main_banner_limit = String(item.main_banner_limit),
+                                        subscription__update.notification_limit = String(item.ntf_limit),
+                                        subscription__update.voucher_limit = String(item.voucher_limit),
                                         subscription__update.smm_support = item.smm_support,
                                         subscription__update.tech_support = item.tech_support
                                         ">Edit</a>
@@ -142,46 +142,46 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <TextInput label="Name" placeholder="name" v-model="subscription__update.name"
-                                    required="true">
+                                    required="false">
                                 </TextInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Price" placeholder="price" v-model="subscription__update.price"
-                                    required="true">
+                                    required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Order" placeholder="order" v-model="subscription__update.order"
-                                    required="true">
+                                    required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Product limit" placeholder="limit"
-                                    v-model="subscription__update.product_limit" required="true"></NumberInput>
+                                    v-model="subscription__update.product_limit" required="false"></NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Product image limit" placeholder="limit"
-                                    v-model="subscription__update.product_image_limit" required="true">
+                                    v-model="subscription__update.product_image_limit" required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Seller banner limit" placeholder="limit"
-                                    v-model="subscription__update.seller_banner_limit" required="true">
+                                    v-model="subscription__update.seller_banner_limit" required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Main banner limit" placeholder="limit"
-                                    v-model="subscription__update.main_banner_limit" required="true">
+                                    v-model="subscription__update.main_banner_limit" required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Notification limit" placeholder="limit"
-                                    v-model="subscription__update.notification_limit" required="true">
+                                    v-model="subscription__update.notification_limit" required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
                                 <NumberInput label="Voucher limit" placeholder="limit"
-                                    v-model="subscription__update.voucher_limit" required="true">
+                                    v-model="subscription__update.voucher_limit" required="false">
                                 </NumberInput>
                             </div>
                             <div class="mb-3">
@@ -224,7 +224,7 @@ export default {
             successAlert: null,
             subscriptions: null,
             subscription: {
-                name: '',
+                name: null,
                 price: null,
                 order: null,
                 product_limit: null,
@@ -238,7 +238,7 @@ export default {
             },
             subscription__update: {
                 id: 0,
-                name: '',
+                name: null,
                 price: null,
                 order: null,
                 product_limit: null,
@@ -271,13 +271,9 @@ export default {
         // GET
         async allSubscriptions() {
             try {
-                const axiosConfig = {
-                    headers: {
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
+                const axiosConfig = { headers: { 'Authorization': `${localStorage.getItem('Authorization')}` } }
                 const response = await this.$appAxios.get('/admin/all/subscriptions', axiosConfig)
-                this.subscriptions = response.data.detail.rows
+                this.subscriptions = await response.data.detail.rows
             } catch (error) {
                 console.log(error)
             }
@@ -324,8 +320,8 @@ export default {
             try {
                 const postData = {
                     id: this.subscription__update.id,
-                    price: this.subscription__update.price,
                     name: this.subscription__update.name,
+                    price: this.subscription__update.price,
                     order: this.subscription__update.order,
                     p_limit: this.subscription__update.product_limit,
                     p_img_limit: this.subscription__update.product_image_limit,

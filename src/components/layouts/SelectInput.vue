@@ -10,8 +10,8 @@ export default {
     name: "SelectInput",
     props: {
         modelValue: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: ''
         },
         label: {
             type: String,

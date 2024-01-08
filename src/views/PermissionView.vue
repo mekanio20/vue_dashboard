@@ -3,7 +3,8 @@
     <Navbar />
     <div class="container-xl mt-3 mb-6">
         <div class="row">
-            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{ successAlert
+            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
+                successAlert
             }}</div>
             <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
             </div>
@@ -64,25 +65,19 @@
                         <div class="card-body">
                             <div class="row row-cards">
                                 <div class="mb-3 col-sm-4 col-md-3">
-                                    <label class="form-label required">Method</label>
-                                    <select v-model="post.method" class="form-select">
-                                        <option value="GET">GET</option>
-                                        <option value="POST">POST</option>
-                                        <option value="PUT">PUT</option>
-                                        <option value="DELETE">DELETE</option>
-                                    </select>
+                                    <SelectInput label="Method" v-model="post.method" required="true"
+                                        :options="['GET', 'POST', 'PUT', 'DELETE']" />
                                 </div>
                                 <div class="mb-3 col-sm-4 col-md-4">
                                     <label class="form-label required">Group</label>
                                     <select v-model="post.groupId" class="form-select">
-                                        <option v-for="group in groups.detail" :key="group.id" :value="group.id">{{
+                                        <option v-for="group in groups" :key="group.id" :value="group.id">{{
                                             group.name
                                         }}</option>
                                     </select>
                                 </div>
                                 <div class="mb-3 col-sm-8 col-md-8">
-                                    <label class="form-label required">URL</label>
-                                    <input v-model="post.url" class="form-control">
+                                    <TextInput label="URL" v-model="post.url" required="true" />
                                 </div>
                             </div>
                         </div>
@@ -99,25 +94,19 @@
                         <div class="card-body">
                             <div class="row row-cards">
                                 <div class="mb-3 col-sm-4 col-md-3">
-                                    <label class="form-label required">Method</label>
-                                    <select v-model="update.method" class="form-select">
-                                        <option value="GET">GET</option>
-                                        <option value="POST">POST</option>
-                                        <option value="PUT">PUT</option>
-                                        <option value="DELETE">DELETE</option>
-                                    </select>
+                                    <SelectInput label="Method" v-model="update.method" required="false"
+                                        :options="['GET', 'POST', 'PUT', 'DELETE']" />
                                 </div>
                                 <div class="mb-3 col-sm-4 col-md-4">
-                                    <label class="form-label required">Group</label>
+                                    <label class="form-label">Group</label>
                                     <select v-model="update.groupId" class="form-select">
-                                        <option v-for="group in groups.detail" :key="group.id" :value="group.id">{{
+                                        <option v-for="group in groups" :key="group.id" :value="group.id">{{
                                             group.name
                                         }}</option>
                                     </select>
                                 </div>
                                 <div class="mb-3 col-sm-8 col-md-8">
-                                    <label class="form-label required">URL</label>
-                                    <input v-model="update.url" class="form-control">
+                                    <TextInput label="URL" v-model="update.url" required="false" />
                                 </div>
                             </div>
                         </div>
@@ -133,20 +122,25 @@
 import Header from '@/components/Header.vue'
 import Navbar from '@/components/Navbar.vue'
 import Paginator from '@/components/Paginator.vue'
+import TextInput from '../components/layouts/TextInput.vue'
 import FormButton from '@/components/layouts/FormButton.vue'
+import SelectInput from '../components/layouts/SelectInput.vue'
 export default {
     name: "Permissions",
     components: {
         Header,
         Navbar,
         Paginator,
-        FormButton
+        TextInput,
+        FormButton,
+        SelectInput
     },
     data() {
         return {
             permissions: null,
             successAlert: null,
             errorAlert: null,
+            currentPage: 1,
             dataLength: 0,
             groups: [],
             post: {
@@ -164,7 +158,7 @@ export default {
     },
     async created() {
         await this.allGroups(),
-        await this.allPermissions(1)
+            await this.allPermissions(this.currentPage)
     },
     methods: {
         async successMessage(msg) {
@@ -188,7 +182,7 @@ export default {
                     }
                 }
                 const response = await this.$appAxios.get('/admin/all/groups', axiosConfig)
-                this.groups = response.data
+                this.groups = response.data.detail
             } catch (error) {
                 console.log(error)
             }
@@ -200,6 +194,7 @@ export default {
                         'Authorization': `${localStorage.getItem('Authorization')}`
                     }
                 }
+                this.currentPage = page
                 const response = await this.$appAxios.get(`/admin/all/permissions?page=${page}`, axiosConfig)
                 this.dataLength = Math.ceil(await response.data.detail.count / 10)
                 this.permissions = await response.data.detail.rows
@@ -227,11 +222,11 @@ export default {
                             this.errorMessage(res.data.msg)
                         } else {
                             this.successMessage(res.data.msg)
-                            this.allPermissions()
+                            this.allPermissions(this.currentPage)
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
-                window.scroll(0,0)
+                window.scroll(0, 0)
             } catch (error) {
                 console.log(error)
             }
@@ -257,11 +252,11 @@ export default {
                             this.errorMessage(res.data.msg)
                         } else {
                             this.successMessage(res.data.msg)
-                            this.allPermissions()
+                            this.allPermissions(this.currentPage)
                         }
                     })
                     .catch((err) => { this.errorMessage(err.response.data.msg) })
-                window.scroll(0,0)
+                window.scroll(0, 0)
             } catch (error) {
                 console.log(error)
             }
@@ -277,12 +272,12 @@ export default {
                                 this.errorMessage(res.data.msg)
                             } else {
                                 this.successMessage(res.data.msg)
-                                this.allPermissions()
+                                this.allPermissions(this.currentPage)
                             }
                         })
                         .catch((err) => { this.errorMessage(err.response.data.msg) })
                 }
-                window.scroll(0,0)
+                window.scroll(0, 0)
             } catch (error) {
                 console.log(error)
             }
