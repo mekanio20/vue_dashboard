@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 </div>
-                <Paginator />
+                <Paginator :dataLength="dataLength" @setPageItem="allBrands" />
             </div>
         </div>
         <div class="d-flex justify-content-center">
@@ -126,8 +126,8 @@ import Header from '@/components/Header.vue'
 import Navbar from '@/components/Navbar.vue'
 import Paginator from '@/components/Paginator.vue'
 import FormButton from '@/components/layouts/FormButton.vue'
-import TextInput from '@/components/layouts/TextInput.vue'
 import SelectInput from '../components/layouts/SelectInput.vue'
+import TextInput from '@/components/layouts/TextInput.vue'
 export default {
     name: "Brands",
     components: {
@@ -135,8 +135,8 @@ export default {
         Navbar,
         Paginator,
         FormButton,
+        SelectInput,
         TextInput,
-        SelectInput
     },
     data() {
         return {
@@ -146,6 +146,7 @@ export default {
             brand_name: null,
             brand_desc: null,
             brand_active: true,
+            dataLength: 0,
             update: {
                 brand_id: null,
                 brand_name: null,
@@ -155,7 +156,7 @@ export default {
         }
     },
     async created() {
-        this.allBrands()
+        this.allBrands(1)
     },
     methods: {
         async successMessage(msg) {
@@ -171,10 +172,11 @@ export default {
             }, 3000)
         },
         // GET
-        async allBrands() {
+        async allBrands(page) {
             try {
-                const response = await this.$appAxios.get('/user/brands?status=all')
-                this.brands = response.data.detail.rows
+                const response = await this.$appAxios.get(`/user/brands?status=all&page=${page}`)
+                this.dataLength = Math.ceil(await response.data.detail.count / 10)
+                this.brands = await response.data.detail.rows
             } catch (error) {
                 console.log(error)
             }

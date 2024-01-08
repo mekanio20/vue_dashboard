@@ -51,7 +51,7 @@
                         </tbody>
                     </table>
                 </div>
-                <Paginator :dataLength=dataLength :itemsPerPage=10 />
+                <Paginator :dataLength="dataLength" @setPageItem="allPermissions" />
             </div>
         </div>
         <div class="row">
@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                        <FormButton :dataLength="dataLength" />
+                        <FormButton />
                     </form>
                 </div>
             </div>
@@ -159,17 +159,12 @@ export default {
                 url: '/api/',
                 method: '',
                 groupId: 0
-            },
-            paginator: {
-                currentPage: 1,
-                itemsPerPage: 10,
-                totalItems: 100,
             }
         }
     },
     async created() {
         await this.allGroups(),
-        await this.allPermissions()
+        await this.allPermissions(1)
     },
     methods: {
         async successMessage(msg) {
@@ -198,16 +193,16 @@ export default {
                 console.log(error)
             }
         },
-        async allPermissions(query) {
+        async allPermissions(page) {
             try {
                 const axiosConfig = {
                     headers: {
                         'Authorization': `${localStorage.getItem('Authorization')}`
                     }
                 }
-                const response = await this.$appAxios.get(`/admin/all/permissions?page=`, axiosConfig)
-                this.permissions = response.data.detail.rows
-                this.dataLength = response.data.detail.count
+                const response = await this.$appAxios.get(`/admin/all/permissions?page=${page}`, axiosConfig)
+                this.dataLength = Math.ceil(await response.data.detail.count / 10)
+                this.permissions = await response.data.detail.rows
             } catch (error) {
                 console.log(error)
             }

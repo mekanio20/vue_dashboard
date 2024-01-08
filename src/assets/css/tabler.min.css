@@ -4262,7 +4262,7 @@ textarea.form-control.is-invalid {
 .btn.show,
 .btn:first-child:active,
 :not(.btn-check)+.btn:active {
-  color: var(--tblr-btn-active-color);
+  /* color: var(--tblr-btn-active-color); */
   background-color: var(--tblr-btn-active-bg);
   border-color: var(--tblr-btn-active-border-color);
   box-shadow: var(--tblr-btn-active-shadow)
@@ -4279,12 +4279,8 @@ textarea.form-control.is-invalid {
 .btn.disabled,
 .btn:disabled,
 fieldset:disabled .btn {
-  color: var(--tblr-btn-disabled-color);
   pointer-events: none;
-  background-color: var(--tblr-btn-disabled-bg);
-  border-color: var(--tblr-btn-disabled-border-color);
   opacity: var(--tblr-btn-disabled-opacity);
-  box-shadow: none
 }
 
 .btn-link {
@@ -20843,7 +20839,7 @@ a.badge {
   width: var(--tblr-btn-icon-size);
   height: var(--tblr-btn-icon-size);
   min-width: var(--tblr-btn-icon-size);
-  margin: 0 calc(var(--tblr-btn-padding-x)/ 2) 0 calc(var(--tblr-btn-padding-x)/ -4);
+  /* margin: 0 calc(var(--tblr-btn-padding-x)/ 2) 0 calc(var(--tblr-btn-padding-x)/ -4); */
   vertical-align: bottom;
   color: inherit
 }
