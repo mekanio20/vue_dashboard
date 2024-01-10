@@ -31,7 +31,7 @@
                         <tbody>
                             <tr v-for="item in brands" :key="item.id">
                                 <td>#{{ item.id }}</td>
-                                <td>{{ item.img }}</td>
+                                <td><img src="public/item.img" width="60" height="50"></td>
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.isActive }}</td>
                                 <td>{{ item.createdAt }}</td>
@@ -193,7 +193,7 @@ export default {
                 formData.append('brand_img', file, file.name)
                 formData.append('name', this.brand_name)
                 formData.append('desc', this.brand_desc)
-                formData.append('isActive', Boolean(status))
+                formData.append('isActive', status)
                 const axiosConfig = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -226,9 +226,7 @@ export default {
                 formData.append('name', this.update.brand_name)
                 formData.append('desc', this.update.brand_desc)
                 formData.append('isActive', status)
-                if (file) {
-                    formData.append('brand_img', file, file.name)
-                }
+                if (file) { formData.append('brand_img', file, file.name) }
                 const axiosConfig = {
                     headers: {
                         'Content-Type': 'multipart/form-data',

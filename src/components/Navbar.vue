@@ -66,6 +66,16 @@
                                 </span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/category">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <img src="../../public/svg/category-svgrepo-com.svg">
+                                </span>
+                                <span class="nav-link-title">
+                                    Categories
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                     <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
                         <form action="./" method="get" autocomplete="off" novalidate>
