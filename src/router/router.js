@@ -8,6 +8,7 @@ const routes = [
     { path: '/subscriptions', name: 'Subscriptions', component: () => import('@/views/SubscriptionView.vue') },
     { path: '/brands', name: 'Brands', component: () => import('@/views/BrandView.vue') },
     { path: '/category', name: 'Category', component: () => import('@/views/CategoryView.vue') },
+    { path: '/subcategory', name: 'Subcategory', component: () => import('@/views/SubcategoryView.vue') },
 ]
 
 const router = createRouter({

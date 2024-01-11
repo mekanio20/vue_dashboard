@@ -33,82 +33,6 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="row row-cards">
-                                        <form @submit.prevent="addStorage" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Storage
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <TextInput label="tm_name" placeholder="tm_name" required="true"
-                                                    v-model="storage.tm_name">
-                                                </TextInput>
-                                                <TextInput label="ru_name" placeholder="ru_name" v-model="storage.ru_name">
-                                                </TextInput>
-                                                <TextInput label="en_name" placeholder="en_name" v-model="storage.en_name">
-                                                </TextInput>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addCategory" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Category
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <TextInput label="tm_name" placeholder="tm_name" required="true"
-                                                    v-model="category.tm_name">
-                                                </TextInput>
-                                                <TextInput label="ru_name" placeholder="ru_name" v-model="category.ru_name">
-                                                </TextInput>
-                                                <TextInput label="en_name" placeholder="en_name" v-model="category.en_name">
-                                                </TextInput>
-                                                <div class="mb-3">
-                                                    <label class="form-label required">Storage selection</label>
-                                                    <select v-model="storageId" class="form-select">
-                                                        <option v-for="storage in storages.detail" :key="storage.id"
-                                                            :value="storage.id">{{ storage.tm_name }}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addSubCategory" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add SubCategory
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <TextInput label="tm_name" placeholder="tm_name" required="true"
-                                                    v-model="subcategory.tm_name"></TextInput>
-                                                <TextInput label="ru_name" placeholder="ru_name"
-                                                    v-model="subcategory.ru_name"></TextInput>
-                                                <TextInput label="en_name" placeholder="en_name"
-                                                    v-model="subcategory.en_name"></TextInput>
-                                                <div class="mb-3">
-                                                    <label class="form-label required">Category selection</label>
-                                                    <select v-model="categoryId" class="form-select">
-                                                        <option v-for="category in categories.detail" :key="category.id"
-                                                            :value="category.id">{{ category.tm_name }}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
                                         <form @submit.prevent="addFeature" class="card">
                                             <div class="card-header">
                                                 <h2 class="card-title">
@@ -208,31 +132,14 @@ export default {
         return {
             group_name: '',
             desc: '',
-            storage: {
-                tm_name: '',
-                ru_name: '',
-                en_name: ''
-            },
-            category: {
-                tm_name: '',
-                ru_name: '',
-                en_name: ''
-            },
-            subcategory: {
-                tm_name: '',
-                ru_name: '',
-                en_name: ''
-            },
             feature: {
                 tm_name: '',
                 ru_name: '',
                 en_name: ''
             },
-            storageId: 0,
             categoryId: 0,
             subcategoryId: 0,
             featureId: 0,
-            storages: [],
             categories: [],
             features: [],
             subcategories: [],
@@ -241,7 +148,6 @@ export default {
         }
     },
     async created() {
-        await this.allStorages(),
         await this.allCategories(),
         await this.allFeatures(),
         await this.allSubcategories()
@@ -272,86 +178,6 @@ export default {
                     }
                 }
                 this.$appAxios.post('/admin/add/group', postData, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
-            } catch (error) {
-                console.log(error)
-            }
-        },
-        async addStorage() {
-            try {
-                const postData = {
-                    tm_name: this.storage.tm_name,
-                    ru_name: this.storage.ru_name,
-                    en_name: this.storage.en_name
-                }
-                const axiosConfig = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                this.$appAxios.post('/admin/add/storage', postData, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
-            } catch (error) {
-                console.log(error)
-            }
-        },
-        async addCategory() {
-            try {
-                const postData = {
-                    tm_name: this.category.tm_name,
-                    ru_name: this.category.ru_name,
-                    en_name: this.category.en_name,
-                    storageId: this.storageId
-                }
-                const axiosConfig = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                this.$appAxios.post('/admin/add/category', postData, axiosConfig)
-                    .then((res) => {
-                        if (res.data.type === 'error') {
-                            this.errorMessage(res.data.msg)
-                        } else {
-                            this.successMessage(res.data.msg)
-                        }
-                    })
-                    .catch((err) => { this.errorMessage(err.response.data.msg) })
-            } catch (error) {
-                console.log(error)
-            }
-        },
-        async addSubCategory() {
-            try {
-                const postData = {
-                    tm_name: this.subcategory.tm_name,
-                    ru_name: this.subcategory.ru_name,
-                    en_name: this.subcategory.en_name,
-                    categoryId: this.categoryId
-                }
-                const axiosConfig = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${localStorage.getItem('Authorization')}`
-                    }
-                }
-                this.$appAxios.post('/admin/add/subcategory', postData, axiosConfig)
                     .then((res) => {
                         if (res.data.type === 'error') {
                             this.errorMessage(res.data.msg)
@@ -441,14 +267,6 @@ export default {
             }
         },
         // GET
-        async allStorages() {
-            try {
-                const response = await this.$appAxios.get('/user/storages')
-                this.storages = response.data
-            } catch (error) {
-                console.log(error)
-            }
-        },
         async allCategories() {
             try {
                 const response = await this.$appAxios.get('/user/categories')
