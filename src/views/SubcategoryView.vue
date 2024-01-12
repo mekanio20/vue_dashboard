@@ -267,7 +267,7 @@ export default {
                 formData.append('tm_name', this.update.tm_name)
                 formData.append('ru_name', this.update.ru_name)
                 formData.append('en_name', this.update.en_name)
-                formData.append('categoryId', this.post.category)
+                formData.append('categoryId', this.update.category)
                 formData.append('isActive', status)
                 if (file) { formData.append('logo', file, file.name) }
                 const axiosConfig = {

@@ -9,6 +9,7 @@ const routes = [
     { path: '/brands', name: 'Brands', component: () => import('@/views/BrandView.vue') },
     { path: '/category', name: 'Category', component: () => import('@/views/CategoryView.vue') },
     { path: '/subcategory', name: 'Subcategory', component: () => import('@/views/SubcategoryView.vue') },
+    { path: '/users', name: 'Users', component: () => import('@/views/UsersView.vue') },
 ]
 
 const router = createRouter({
