@@ -96,6 +96,16 @@
                                 </span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/sellers">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <img src="../../public/svg/users-group-svgrepo-com.svg">
+                                </span>
+                                <span class="nav-link-title">
+                                    Sellers
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                     <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
                         <form action="./" method="get" autocomplete="off" novalidate>

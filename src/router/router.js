@@ -10,6 +10,7 @@ const routes = [
     { path: '/category', name: 'Category', component: () => import('@/views/CategoryView.vue') },
     { path: '/subcategory', name: 'Subcategory', component: () => import('@/views/SubcategoryView.vue') },
     { path: '/users', name: 'Users', component: () => import('@/views/UsersView.vue') },
+    { path: '/sellers', name: 'Sellers', component: () => import('@/views/SellersView.vue') },
 ]
 
 const router = createRouter({

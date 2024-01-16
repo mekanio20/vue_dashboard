@@ -1,120 +1,122 @@
 <template>
-    <Header />
-    <Navbar />
-    <div class="container-xl mt-3 mb-6">
-        <div class="row">
-            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
-                successAlert
-            }}</div>
-            <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Brands</h3>
-                </div>
-                <div class="table-responsive">
-                    <table class="table card-table table-vcenter text-nowrap datatable">
-                        <thead>
-                            <tr>
-                                <th>#Id</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>IsActive</th>
-                                <th>CreatedAt</th>
-                                <th>UpdatedAt</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in brands" :key="item.id">
-                                <td>#{{ item.id }}</td>
-                                <td><img src="public/item.img" width="60" height="50"></td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.isActive }}</td>
-                                <td>{{ item.createdAt }}</td>
-                                <td>{{ item.updatedAt }}</td>
-                                <td>
-                                    <a href="#update" class="btn btn-blue" @click="
-                                        update.brand_id = item.id,
-                                        update.brand_name = item.name,
-                                        update.brand_active = String(item.isActive),
-                                        update.brand_desc = item.desc
-                                        ">Edit
-                                    </a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger" @click="deleteBrand(item.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <Paginator :dataLength="dataLength" @setPageItem="allBrands" />
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="col-lg-4" style="margin-right: 30px;">
-                <div class="row row-cards">
-                    <form @submit.prevent="addBrand" class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                Add Brand
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <TextInput label="Brand" placeholder="brand_name" v-model="brand_name" required="true">
-                                </TextInput>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label required">Brand image</label>
-                                <input id="brand_img" type="file" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <SelectInput label="IsActive" v-model="brand_active" required="false"
-                                    :options="['true', 'false']" />
-                            </div>
-                            <div class="mb-3">
-                                <TextInput label="Description" placeholder="brand_description" v-model="brand_desc"
-                                    required="true">
-                                </TextInput>
-                            </div>
-                        </div>
-                        <FormButton />
-                    </form>
+    <div>
+        <Header />
+        <Navbar />
+        <div class="container-xl mt-3 mb-6">
+            <div class="row">
+                <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
+                    successAlert
+                }}</div>
+                <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
                 </div>
             </div>
-            <div id="update" class="col-lg-4">
-                <div class="row row-cards">
-                    <form @submit.prevent="updateBrand" class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                Update Brand
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <TextInput label="Brand" placeholder="brand_name" v-model="update.brand_name"
-                                    required="false" />
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Brands</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>#Id</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>IsActive</th>
+                                    <th>CreatedAt</th>
+                                    <th>UpdatedAt</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in brands" :key="item.id">
+                                    <td>#{{ item.id }}</td>
+                                    <td><img src="public/item.img" width="60" height="50"></td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.isActive }}</td>
+                                    <td>{{ item.createdAt }}</td>
+                                    <td>{{ item.updatedAt }}</td>
+                                    <td>
+                                        <a href="#update" class="btn btn-blue" @click="
+                                            update.brand_id = item.id,
+                                            update.brand_name = item.name,
+                                            update.brand_active = String(item.isActive),
+                                            update.brand_desc = item.desc
+                                            ">Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" @click="deleteBrand(item.id)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <Paginator :dataLength="dataLength" @setPageItem="allBrands" />
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-4" style="margin-right: 30px;">
+                    <div class="row row-cards">
+                        <form @submit.prevent="addBrand" class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    Add Brand
+                                </h2>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Brand image</label>
-                                <input id="update__brand_img" type="file" class="form-control" />
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <TextInput label="Brand" placeholder="brand_name" v-model="brand_name" required="true">
+                                    </TextInput>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label required">Brand image</label>
+                                    <input id="brand_img" type="file" class="form-control" />
+                                </div>
+                                <div class="mb-3">
+                                    <SelectInput label="IsActive" v-model="brand_active" required="false"
+                                        :options="['true', 'false']" />
+                                </div>
+                                <div class="mb-3">
+                                    <TextInput label="Description" placeholder="brand_description" v-model="brand_desc"
+                                        required="true">
+                                    </TextInput>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <SelectInput label="IsActive" v-model="update.brand_active" required="false"
-                                    :options="['true', 'false']" />
+                            <FormButton />
+                        </form>
+                    </div>
+                </div>
+                <div id="update" class="col-lg-4">
+                    <div class="row row-cards">
+                        <form @submit.prevent="updateBrand" class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    Update Brand
+                                </h2>
                             </div>
-                            <div class="mb-3">
-                                <TextInput label="Description" placeholder="brand_description"
-                                    v-model="update.brand_desc" />
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <TextInput label="Brand" placeholder="brand_name" v-model="update.brand_name"
+                                        required="false" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Brand image</label>
+                                    <input id="update__brand_img" type="file" class="form-control" />
+                                </div>
+                                <div class="mb-3">
+                                    <SelectInput label="IsActive" v-model="update.brand_active" required="false"
+                                        :options="['true', 'false']" />
+                                </div>
+                                <div class="mb-3">
+                                    <TextInput label="Description" placeholder="brand_description"
+                                        v-model="update.brand_desc" />
+                                </div>
                             </div>
-                        </div>
-                        <FormButton />
-                    </form>
+                            <FormButton />
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

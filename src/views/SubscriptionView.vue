@@ -1,200 +1,202 @@
 <template>
-    <Header />
-    <Navbar />
-    <div class="container-xl mt-3 mb-6">
-        <div class="row">
-            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
-                successAlert
-            }}</div>
-            <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Subscriptions</h3>
-                </div>
-                <div class="table-responsive">
-                    <table class="table card-table table-vcenter text-nowrap datatable">
-                        <thead>
-                            <tr>
-                                <th>#Id</th>
-                                <th>Name</th>
-                                <th>Product limit</th>
-                                <th>Image limit</th>
-                                <th>Seller Banner limit</th>
-                                <th>Main Banner limit</th>
-                                <th>Notification limit</th>
-                                <th>Voucher limit</th>
-                                <th>Price</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in subscriptions" :key="item.id">
-                                <td>#{{ item.id }}</td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.p_limit }}</td>
-                                <td>{{ item.p_img_limit }}</td>
-                                <td>{{ item.seller_banner_limit }}</td>
-                                <td>{{ item.main_banner_limit }}</td>
-                                <td>{{ item.ntf_limit }}</td>
-                                <td>{{ item.voucher_limit }}</td>
-                                <td>{{ item.price }} tmt</td>
-                                <td>
-                                    <a href="#update" class="btn btn-blue" @click="
-                                        subscription__update.id = item.id,
-                                        subscription__update.name = item.name,
-                                        subscription__update.price = String(item.price),
-                                        subscription__update.order = String(item.order),
-                                        subscription__update.product_limit = String(item.p_limit),
-                                        subscription__update.product_image_limit = String(item.p_img_limit),
-                                        subscription__update.seller_banner_limit = String(item.seller_banner_limit),
-                                        subscription__update.main_banner_limit = String(item.main_banner_limit),
-                                        subscription__update.notification_limit = String(item.ntf_limit),
-                                        subscription__update.voucher_limit = String(item.voucher_limit),
-                                        subscription__update.smm_support = item.smm_support,
-                                        subscription__update.tech_support = item.tech_support
-                                        ">Edit</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger" @click="deleteSubscrpition(item.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div>
+        <Header />
+        <Navbar />
+        <div class="container-xl mt-3 mb-6">
+            <div class="row">
+                <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
+                    successAlert
+                }}</div>
+                <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="col-lg-4" style="margin-right: 30px;">
-                <div class="row row-cards">
-                    <form @submit.prevent="addSubscription" class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                Add Subscription
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <TextInput label="Name" placeholder="name" v-model="subscription.name" required="true">
-                                </TextInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Price" placeholder="price" v-model="subscription.price" required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Order" placeholder="order" v-model="subscription.order" required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Product limit" placeholder="limit" v-model="subscription.product_limit"
-                                    required="true"></NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Product image limit" placeholder="limit"
-                                    v-model="subscription.product_image_limit" required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Seller banner limit" placeholder="limit"
-                                    v-model="subscription.seller_banner_limit" required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Main banner limit" placeholder="limit"
-                                    v-model="subscription.main_banner_limit" required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Notification limit" placeholder="limit"
-                                    v-model="subscription.notification_limit" required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Voucher limit" placeholder="limit" v-model="subscription.voucher_limit"
-                                    required="true">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <BooleanInput label="Smm support" v-model="subscription.smm_support">
-                                </BooleanInput>
-                            </div>
-                            <div class="mb-3">
-                                <BooleanInput label="Tech support" v-model="subscription.tech_support">
-                                </BooleanInput>
-                            </div>
-                        </div>
-                        <FormButton />
-                    </form>
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Subscriptions</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>#Id</th>
+                                    <th>Name</th>
+                                    <th>Product limit</th>
+                                    <th>Image limit</th>
+                                    <th>Seller Banner limit</th>
+                                    <th>Main Banner limit</th>
+                                    <th>Notification limit</th>
+                                    <th>Voucher limit</th>
+                                    <th>Price</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in subscriptions" :key="item.id">
+                                    <td>#{{ item.id }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.p_limit }}</td>
+                                    <td>{{ item.p_img_limit }}</td>
+                                    <td>{{ item.seller_banner_limit }}</td>
+                                    <td>{{ item.main_banner_limit }}</td>
+                                    <td>{{ item.ntf_limit }}</td>
+                                    <td>{{ item.voucher_limit }}</td>
+                                    <td>{{ item.price }} tmt</td>
+                                    <td>
+                                        <a href="#update" class="btn btn-blue" @click="
+                                            subscription__update.id = item.id,
+                                            subscription__update.name = item.name,
+                                            subscription__update.price = String(item.price),
+                                            subscription__update.order = String(item.order),
+                                            subscription__update.product_limit = String(item.p_limit),
+                                            subscription__update.product_image_limit = String(item.p_img_limit),
+                                            subscription__update.seller_banner_limit = String(item.seller_banner_limit),
+                                            subscription__update.main_banner_limit = String(item.main_banner_limit),
+                                            subscription__update.notification_limit = String(item.ntf_limit),
+                                            subscription__update.voucher_limit = String(item.voucher_limit),
+                                            subscription__update.smm_support = item.smm_support,
+                                            subscription__update.tech_support = item.tech_support
+                                            ">Edit</a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" @click="deleteSubscrpition(item.id)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div id="update" class="col-lg-4">
-                <div class="row row-cards">
-                    <form @submit.prevent="updateSubscription" class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                Update Subscription
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <TextInput label="Name" placeholder="name" v-model="subscription__update.name"
-                                    required="false">
-                                </TextInput>
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-4" style="margin-right: 30px;">
+                    <div class="row row-cards">
+                        <form @submit.prevent="addSubscription" class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    Add Subscription
+                                </h2>
                             </div>
-                            <div class="mb-3">
-                                <NumberInput label="Price" placeholder="price" v-model="subscription__update.price"
-                                    required="false">
-                                </NumberInput>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <TextInput label="Name" placeholder="name" v-model="subscription.name" required="true">
+                                    </TextInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Price" placeholder="price" v-model="subscription.price" required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Order" placeholder="order" v-model="subscription.order" required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Product limit" placeholder="limit" v-model="subscription.product_limit"
+                                        required="true"></NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Product image limit" placeholder="limit"
+                                        v-model="subscription.product_image_limit" required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Seller banner limit" placeholder="limit"
+                                        v-model="subscription.seller_banner_limit" required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Main banner limit" placeholder="limit"
+                                        v-model="subscription.main_banner_limit" required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Notification limit" placeholder="limit"
+                                        v-model="subscription.notification_limit" required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Voucher limit" placeholder="limit" v-model="subscription.voucher_limit"
+                                        required="true">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <BooleanInput label="Smm support" v-model="subscription.smm_support">
+                                    </BooleanInput>
+                                </div>
+                                <div class="mb-3">
+                                    <BooleanInput label="Tech support" v-model="subscription.tech_support">
+                                    </BooleanInput>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <NumberInput label="Order" placeholder="order" v-model="subscription__update.order"
-                                    required="false">
-                                </NumberInput>
+                            <FormButton />
+                        </form>
+                    </div>
+                </div>
+                <div id="update" class="col-lg-4">
+                    <div class="row row-cards">
+                        <form @submit.prevent="updateSubscription" class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    Update Subscription
+                                </h2>
                             </div>
-                            <div class="mb-3">
-                                <NumberInput label="Product limit" placeholder="limit"
-                                    v-model="subscription__update.product_limit" required="false"></NumberInput>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <TextInput label="Name" placeholder="name" v-model="subscription__update.name"
+                                        required="false">
+                                    </TextInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Price" placeholder="price" v-model="subscription__update.price"
+                                        required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Order" placeholder="order" v-model="subscription__update.order"
+                                        required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Product limit" placeholder="limit"
+                                        v-model="subscription__update.product_limit" required="false"></NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Product image limit" placeholder="limit"
+                                        v-model="subscription__update.product_image_limit" required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Seller banner limit" placeholder="limit"
+                                        v-model="subscription__update.seller_banner_limit" required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Main banner limit" placeholder="limit"
+                                        v-model="subscription__update.main_banner_limit" required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Notification limit" placeholder="limit"
+                                        v-model="subscription__update.notification_limit" required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <NumberInput label="Voucher limit" placeholder="limit"
+                                        v-model="subscription__update.voucher_limit" required="false">
+                                    </NumberInput>
+                                </div>
+                                <div class="mb-3">
+                                    <BooleanInput label="Smm support" v-model="subscription__update.smm_support">
+                                    </BooleanInput>
+                                </div>
+                                <div class="mb-3">
+                                    <BooleanInput label="Tech support" v-model="subscription__update.tech_support">
+                                    </BooleanInput>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <NumberInput label="Product image limit" placeholder="limit"
-                                    v-model="subscription__update.product_image_limit" required="false">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Seller banner limit" placeholder="limit"
-                                    v-model="subscription__update.seller_banner_limit" required="false">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Main banner limit" placeholder="limit"
-                                    v-model="subscription__update.main_banner_limit" required="false">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Notification limit" placeholder="limit"
-                                    v-model="subscription__update.notification_limit" required="false">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <NumberInput label="Voucher limit" placeholder="limit"
-                                    v-model="subscription__update.voucher_limit" required="false">
-                                </NumberInput>
-                            </div>
-                            <div class="mb-3">
-                                <BooleanInput label="Smm support" v-model="subscription__update.smm_support">
-                                </BooleanInput>
-                            </div>
-                            <div class="mb-3">
-                                <BooleanInput label="Tech support" v-model="subscription__update.tech_support">
-                                </BooleanInput>
-                            </div>
-                        </div>
-                        <FormButton />
-                    </form>
+                            <FormButton />
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

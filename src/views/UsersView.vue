@@ -1,98 +1,100 @@
 <template>
-    <Header />
-    <Navbar />
-    <div class="container-xl mt-3 mb-6">
-        <div class="row">
-            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
-                successAlert
-            }}</div>
-            <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Users</h3>
+    <div>
+        <Header />
+        <Navbar />
+        <div class="container-xl mt-3 mb-6">
+            <div class="row">
+                <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
+                    successAlert
+                }}</div>
+                <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
                 </div>
-                <div class="table-responsive">
-                    <table class="table card-table table-vcenter text-nowrap datatable">
-                        <thead>
-                            <tr>
-                                <th>#Id</th>
-                                <th>Phone</th>
-                                <th>Device</th>
-                                <th>Ip</th>
-                                <th>Group</th>
-                                <th>isActive</th>
-                                <th>isCustomer</th>
-                                <th>isSeller</th>
-                                <th>isStaff</th>
-                                <th>isSuperAdmin</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in users" :key="item.id">
-                                <td>#{{ item.id }}</td>
-                                <td>{{ item.phone }}</td>
-                                <td>{{ item.device }}</td>
-                                <td>{{ item.ip }}</td>
-                                <td>{{ item.group.name }}</td>
-                                <td>{{ item.isActive }}</td>
-                                <td>{{ item.isCustomer }}</td>
-                                <td>{{ item.isSeller }}</td>
-                                <td>{{ item.isStaff }}</td>
-                                <td>{{ item.isSuperAdmin }}</td>
-                                <td>
-                                    <a href="#update" class="btn btn-blue" @click="
-                                        update.id = Number(item.id),
-                                        update.isActive = String(item.isActive),
-                                        update.isCustomer = String(item.isCustomer),
-                                        update.isSeller = String(item.isSeller),
-                                        update.isStaff = String(item.isStaff)
-                                        ">Edit
-                                    </a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger" @click="deleteUser(item.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <Paginator :dataLength="dataLength" @setPageItem="allUsers" />
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div id="update" class="col-lg-6 mb-3">
-                <div class="col-12">
-                    <form @submit.prevent="updateUser" class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Update User</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row row-cards">
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <SelectInput label="IsActive" v-model="update.isActive" required="false"
-                                        :options="['true', 'false']" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <SelectInput label="isCustomer" v-model="update.isCustomer" required="false"
-                                        :options="['true', 'false']" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <SelectInput label="isSeller" v-model="update.isSeller" required="false"
-                                        :options="['true', 'false']" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <SelectInput label="isStaff" v-model="update.isStaff" required="false"
-                                        :options="['true', 'false']" />
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Users</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>#Id</th>
+                                    <th>Phone</th>
+                                    <th>Device</th>
+                                    <th>Ip</th>
+                                    <th>Group</th>
+                                    <th>isActive</th>
+                                    <th>isCustomer</th>
+                                    <th>isSeller</th>
+                                    <th>isStaff</th>
+                                    <th>isSuperAdmin</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in users" :key="item.id">
+                                    <td>#{{ item.id }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.device }}</td>
+                                    <td>{{ item.ip }}</td>
+                                    <td>{{ item.group.name }}</td>
+                                    <td>{{ item.isActive }}</td>
+                                    <td>{{ item.isCustomer }}</td>
+                                    <td>{{ item.isSeller }}</td>
+                                    <td>{{ item.isStaff }}</td>
+                                    <td>{{ item.isSuperAdmin }}</td>
+                                    <td>
+                                        <a href="#update" class="btn btn-blue" @click="
+                                            update.id = Number(item.id),
+                                            update.isActive = String(item.isActive),
+                                            update.isCustomer = String(item.isCustomer),
+                                            update.isSeller = String(item.isSeller),
+                                            update.isStaff = String(item.isStaff)
+                                            ">Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" @click="deleteUser(item.id)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <Paginator :dataLength="dataLength" @setPageItem="allUsers" />
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div id="update" class="col-lg-6 mb-3">
+                    <div class="col-12">
+                        <form @submit.prevent="updateUser" class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Update User</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cards">
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <SelectInput label="IsActive" v-model="update.isActive" required="false"
+                                            :options="['true', 'false']" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <SelectInput label="isCustomer" v-model="update.isCustomer" required="false"
+                                            :options="['true', 'false']" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <SelectInput label="isSeller" v-model="update.isSeller" required="false"
+                                            :options="['true', 'false']" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <SelectInput label="isStaff" v-model="update.isStaff" required="false"
+                                            :options="['true', 'false']" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <FormButton />
-                    </form>
+                            <FormButton />
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

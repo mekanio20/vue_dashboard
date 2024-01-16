@@ -1,124 +1,126 @@
 <template>
-    <Header />
-    <Navbar />
-    <div class="container-xl mt-3 mb-6">
-        <div class="row">
-            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
-                successAlert
-            }}</div>
-            <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Categories</h3>
+    <div>
+        <Header />
+        <Navbar />
+        <div class="container-xl mt-3 mb-6">
+            <div class="row">
+                <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{
+                    successAlert
+                }}</div>
+                <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
                 </div>
-                <div class="table-responsive">
-                    <table class="table card-table table-vcenter text-nowrap datatable">
-                        <thead>
-                            <tr>
-                                <th>#Id</th>
-                                <th>Image</th>
-                                <th>TM_NAME</th>
-                                <th>RU_NAME</th>
-                                <th>EN_NAME</th>
-                                <th>Slug</th>
-                                <th>IsActive</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in categories" :key="item.id">
-                                <td>#{{ item.id }}</td>
-                                <td><img :src="item.img" width="60" height="50"></td>
-                                <td>{{ item.tm_name }}</td>
-                                <td>{{ item.ru_name }}</td>
-                                <td>{{ item.en_name }}</td>
-                                <td>{{ item.slug }}</td>
-                                <td>{{ item.isActive }}</td>
-                                <td>
-                                    <a href="#update" class="btn btn-blue" @click="
-                                        update.id = item.id,
-                                        update.tm_name = item.tm_name,
-                                        update.ru_name = item.ru_name == 'null' ? null : item.ru_name,
-                                        update.en_name = item.en_name == 'null' ? null : item.en_name,
-                                        update.isActive = String(item.isActive)
-                                        ">Edit
-                                    </a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger" @click="deleteCategory(item.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <Paginator :dataLength="dataLength" @setPageItem="allCategories" />
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 mb-3">
-                <div class="col-12">
-                    <form @submit.prevent="addCategory" class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Add Category</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row row-cards">
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <TextInput label="TM" placeholder="tm_name" required="true" v-model="post.tm_name" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <TextInput label="RU" placeholder="ru_name" required="false" v-model="post.ru_name" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <TextInput label="EN" placeholder="en_name" required="false" v-model="post.en_name" />
-                                </div>
-                                <div class="mb-3">
-                                    <SelectInput label="IsActive" v-model="post.isActive" required="false"
-                                        :options="['true', 'false']" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label required">Category image</label>
-                                    <input id="img" type="file" class="form-control" />
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Categories</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>#Id</th>
+                                    <th>Image</th>
+                                    <th>TM_NAME</th>
+                                    <th>RU_NAME</th>
+                                    <th>EN_NAME</th>
+                                    <th>Slug</th>
+                                    <th>IsActive</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in categories" :key="item.id">
+                                    <td>#{{ item.id }}</td>
+                                    <td><img :src="item.img" width="60" height="50"></td>
+                                    <td>{{ item.tm_name }}</td>
+                                    <td>{{ item.ru_name }}</td>
+                                    <td>{{ item.en_name }}</td>
+                                    <td>{{ item.slug }}</td>
+                                    <td>{{ item.isActive }}</td>
+                                    <td>
+                                        <a href="#update" class="btn btn-blue" @click="
+                                            update.id = item.id,
+                                            update.tm_name = item.tm_name,
+                                            update.ru_name = item.ru_name == 'null' ? null : item.ru_name,
+                                            update.en_name = item.en_name == 'null' ? null : item.en_name,
+                                            update.isActive = String(item.isActive)
+                                            ">Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" @click="deleteCategory(item.id)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <Paginator :dataLength="dataLength" @setPageItem="allCategories" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="col-12">
+                        <form @submit.prevent="addCategory" class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Add Category</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cards">
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <TextInput label="TM" placeholder="tm_name" required="true" v-model="post.tm_name" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <TextInput label="RU" placeholder="ru_name" required="false" v-model="post.ru_name" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <TextInput label="EN" placeholder="en_name" required="false" v-model="post.en_name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <SelectInput label="IsActive" v-model="post.isActive" required="false"
+                                            :options="['true', 'false']" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label required">Category image</label>
+                                        <input id="img" type="file" class="form-control" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <FormButton />
-                    </form>
+                            <FormButton />
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div id="update" class="col-lg-6 mb-3">
-                <div class="col-12">
-                    <form @submit.prevent="updateCategory" class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Update Category</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row row-cards">
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <TextInput label="TM" placeholder="tm_name" required="false" v-model="update.tm_name" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <TextInput label="RU" placeholder="ru_name" required="false" v-model="update.ru_name" />
-                                </div>
-                                <div class="mb-3 col-sm-4 col-md-4">
-                                    <TextInput label="EN" placeholder="en_name" required="false" v-model="update.en_name" />
-                                </div>
-                                <div class="mb-3">
-                                    <SelectInput label="IsActive" v-model="update.isActive" required="false"
-                                        :options="['true', 'false']" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Category image</label>
-                                    <input id="update__img" type="file" class="form-control" />
+                <div id="update" class="col-lg-6 mb-3">
+                    <div class="col-12">
+                        <form @submit.prevent="updateCategory" class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Update Category</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cards">
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <TextInput label="TM" placeholder="tm_name" required="false" v-model="update.tm_name" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <TextInput label="RU" placeholder="ru_name" required="false" v-model="update.ru_name" />
+                                    </div>
+                                    <div class="mb-3 col-sm-4 col-md-4">
+                                        <TextInput label="EN" placeholder="en_name" required="false" v-model="update.en_name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <SelectInput label="IsActive" v-model="update.isActive" required="false"
+                                            :options="['true', 'false']" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Category image</label>
+                                        <input id="update__img" type="file" class="form-control" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <FormButton />
-                    </form>
+                            <FormButton />
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,105 +1,107 @@
 <template>
-    <Header />
-    <Navbar />
-    <div class="container-xl">
-        <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{ successAlert
-        }}</div>
-        <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
+    <div>
+        <Header />
+        <Navbar />
+        <div class="container-xl">
+            <div v-if="successAlert" class="alert alert-success" :class="{ 'block': successAlert }" role="alert">{{ successAlert
+            }}</div>
+            <div v-if="errorAlert" class="alert alert-danger" :class="{ 'block': errorAlert }" role="alert">{{ errorAlert }}
+            </div>
         </div>
-    </div>
-    <div class="page-wrapper">
-        <div class="page-body">
-            <div class="container-xl">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row row g-5">
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addGroup" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Group
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <TextInput label="group" placeholder="group name" required="true"
-                                                    v-model="group_name">
-                                                </TextInput>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addFeature" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Feature
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <TextInput label="tm_name" placeholder="tm_name" required="true"
-                                                    v-model="feature.tm_name">
-                                                </TextInput>
-                                                <TextInput label="ru_name" placeholder="ru_name" v-model="feature.ru_name">
-                                                </TextInput>
-                                                <TextInput label="en_name" placeholder="en_name" v-model="feature.en_name">
-                                                </TextInput>
-                                            </div>
-                                            <FormButton />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addFeatureDesc" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Feature Description
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">desc</label>
-                                                    <input v-model="desc" class="form-control" placeholder="desc">
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="container-xl">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row row g-5">
+                                    <div class="col-lg-4">
+                                        <div class="row row-cards">
+                                            <form @submit.prevent="addGroup" class="card">
+                                                <div class="card-header">
+                                                    <h2 class="card-title">
+                                                        Add Group
+                                                    </h2>
                                                 </div>
-                                                <label class="form-label required">Feature selection</label>
-                                                <select v-model="featureId" class="form-select">
-                                                    <option v-for="feature in features.detail" :key="feature.id"
-                                                        :value="feature.id">{{ feature.tm_name }}</option>
-                                                </select>
-                                            </div>
-                                            <FormButton />
-                                        </form>
+                                                <div class="card-body">
+                                                    <TextInput label="group" placeholder="group name" required="true"
+                                                        v-model="group_name">
+                                                    </TextInput>
+                                                </div>
+                                                <FormButton />
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="row row-cards">
-                                        <form @submit.prevent="addSubCategoryFeature" class="card">
-                                            <div class="card-header">
-                                                <h2 class="card-title">
-                                                    Add Subcategory Feature
-                                                </h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="mb-3">
+                                    <div class="col-lg-4">
+                                        <div class="row row-cards">
+                                            <form @submit.prevent="addFeature" class="card">
+                                                <div class="card-header">
+                                                    <h2 class="card-title">
+                                                        Add Feature
+                                                    </h2>
+                                                </div>
+                                                <div class="card-body">
+                                                    <TextInput label="tm_name" placeholder="tm_name" required="true"
+                                                        v-model="feature.tm_name">
+                                                    </TextInput>
+                                                    <TextInput label="ru_name" placeholder="ru_name" v-model="feature.ru_name">
+                                                    </TextInput>
+                                                    <TextInput label="en_name" placeholder="en_name" v-model="feature.en_name">
+                                                    </TextInput>
+                                                </div>
+                                                <FormButton />
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row row-cards">
+                                            <form @submit.prevent="addFeatureDesc" class="card">
+                                                <div class="card-header">
+                                                    <h2 class="card-title">
+                                                        Add Feature Description
+                                                    </h2>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">desc</label>
+                                                        <input v-model="desc" class="form-control" placeholder="desc">
+                                                    </div>
                                                     <label class="form-label required">Feature selection</label>
                                                     <select v-model="featureId" class="form-select">
                                                         <option v-for="feature in features.detail" :key="feature.id"
                                                             :value="feature.id">{{ feature.tm_name }}</option>
                                                     </select>
                                                 </div>
-                                                <label class="form-label required">Subcategory selection</label>
-                                                <select v-model="subcategoryId" class="form-select">
-                                                    <option v-for="subcategory in subcategories.detail"
-                                                        :key="subcategory.id" :value="subcategory.id">{{ subcategory.tm_name
-                                                        }}</option>
-                                                </select>
-                                            </div>
-                                            <FormButton />
-                                        </form>
+                                                <FormButton />
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row row-cards">
+                                            <form @submit.prevent="addSubCategoryFeature" class="card">
+                                                <div class="card-header">
+                                                    <h2 class="card-title">
+                                                        Add Subcategory Feature
+                                                    </h2>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Feature selection</label>
+                                                        <select v-model="featureId" class="form-select">
+                                                            <option v-for="feature in features.detail" :key="feature.id"
+                                                                :value="feature.id">{{ feature.tm_name }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="form-label required">Subcategory selection</label>
+                                                    <select v-model="subcategoryId" class="form-select">
+                                                        <option v-for="subcategory in subcategories.detail"
+                                                            :key="subcategory.id" :value="subcategory.id">{{ subcategory.tm_name
+                                                            }}</option>
+                                                    </select>
+                                                </div>
+                                                <FormButton />
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
