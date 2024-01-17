@@ -23,8 +23,9 @@
       </div>
       <div class="col-12 mb-3">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header d-flex justify-content-between">
             <h3 class="card-title">Sellers</h3>
+            <Search />
           </div>
           <div class="table-responsive">
             <table class="table card-table table-vcenter text-nowrap datatable">
@@ -55,7 +56,7 @@
                   <td>{{ item.sell_type }}</td>
                   <td>{{ item.main_number }}</td>
                   <td>{{ item.isVerified }}</td>
-                  <td>{{ item.category?.tm_name }}</td>
+                  <td>{{ item.category?.tm_name || "null" }}</td>
                   <td>
                     <a
                       href="#update"
@@ -79,7 +80,11 @@
               </tbody>
             </table>
           </div>
-          <Paginator :dataLength="dataLength" @setPageItem="allSellers" />
+          <Paginator
+            :dataLength="dataLength"
+            @setPageItem="allSellers"
+            :count="count"
+          />
         </div>
       </div>
       <div class="d-flex justify-content-center">
@@ -93,7 +98,7 @@
                 <div class="row row-cards">
                   <div class="mb-3 col-sm-4 col-md-10">
                     <SelectInput
-                      label="IsActive"
+                      label="IsVerified"
                       v-model="update.isVerified"
                       required="false"
                       :options="['true', 'false']"
@@ -119,6 +124,7 @@ import SelectInput from "@/components/layouts/SelectInput.vue";
 import NumberInput from "@/components/layouts/NumberInput.vue";
 import BooleanInput from "@/components/layouts/BooleanInput.vue";
 import FormButton from "@/components/layouts/FormButton.vue";
+import Search from "@/components/Search.vue";
 export default {
   name: "Sellers",
   components: {
@@ -130,6 +136,7 @@ export default {
     SelectInput,
     BooleanInput,
     FormButton,
+    Search,
   },
   data() {
     return {
@@ -138,6 +145,7 @@ export default {
       successAlert: null,
       currentPage: 1,
       dataLength: 0,
+      count: 0,
       update: {
         id: 0,
         isVerified: null,
@@ -175,6 +183,7 @@ export default {
         );
         this.dataLength = Math.ceil((await response.data.detail.count) / 10);
         this.sellers = await response.data.detail.rows;
+        this.count = await response.data.detail.count;
       } catch (error) {
         console.log(error);
       }
@@ -243,7 +252,6 @@ export default {
 </script>
 
 <style>
-@import "@/assets/main.css";
 @import "@/assets/css/tabler.min.css";
 @import "@/assets/css/tabler-flags.min.css";
 @import "@/assets/css/tabler-payments.min.css";

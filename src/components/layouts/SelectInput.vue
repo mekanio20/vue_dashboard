@@ -1,8 +1,10 @@
 <template>
-    <label class="form-label" :class="{ 'required': required !== 'false' }">{{ label }}</label>
-    <select class="form-select" @input="$emit('update:modelValue', $event.target.value)" :value="modelValue">
-        <option v-for="item in options" :key="item" :value="item">{{ item }}</option>
-    </select>
+    <div>
+        <label class="form-label" :class="{ 'required': required !== 'false' }">{{ label }}</label>
+        <select class="form-select" @input="$emit('update:modelValue', $event.target.value)" :value="modelValue">
+            <option v-for="item in options" :key="item" :value="item">{{ item }}</option>
+        </select>
+    </div>
 </template>
 
 <script>
