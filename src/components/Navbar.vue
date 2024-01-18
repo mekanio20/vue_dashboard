@@ -54,69 +54,178 @@
                 <span class="nav-link-title"> Login </span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/permissions">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#navbar-base"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                role="button"
+                aria-expanded="false"
+              >
                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/access-locked-svgrepo-com.svg" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"></path>
+                    <path d="M12 12l8 -4.5"></path>
+                    <path d="M12 12l0 9"></path>
+                    <path d="M12 12l-8 -4.5"></path>
+                    <path d="M16 5.25l-8 4.5"></path>
+                  </svg>
                 </span>
-                <span class="nav-link-title"> Permissions </span>
+                <span class="nav-link-title"> Admin </span>
               </a>
+              <div class="dropdown-menu">
+                <div class="dropdown-menu-columns">
+                  <div class="dropdown-menu-column">
+                    <a class="dropdown-item" href="/brands">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img
+                          src="../../public/svg/brand-dribbble-svgrepo-com.svg"
+                        />
+                      </span>
+                      <span class="nav-link-title ms-2"> Brands </span>
+                    </a>
+                    <a class="dropdown-item" href="/permissions">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img
+                          src="../../public/svg/access-locked-svgrepo-com.svg"
+                        />
+                      </span>
+                      <span class="nav-link-title ms-2"> Permissions </span>
+                    </a>
+                    <a class="dropdown-item" href="/subscriptions">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/magazines-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Subscriptions </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/subscriptions">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#navbar-base"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                role="button"
+                aria-expanded="false"
+              >
                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/magazines-svgrepo-com.svg" />
-                </span>
-                <span class="nav-link-title"> Subscriptions </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/brands">
-                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/brand-dribbble-svgrepo-com.svg" />
-                </span>
-                <span class="nav-link-title"> Brands </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/category">
-                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/category-svgrepo-com.svg" />
-                </span>
-                <span class="nav-link-title"> Categories </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/subcategory">
-                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/category-svgrepo-com.svg" />
-                </span>
-                <span class="nav-link-title"> Subcategories </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/users">
-                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/users-group-svgrepo-com.svg" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"></path>
+                    <path d="M12 12l8 -4.5"></path>
+                    <path d="M12 12l0 9"></path>
+                    <path d="M12 12l-8 -4.5"></path>
+                    <path d="M16 5.25l-8 4.5"></path>
+                  </svg>
                 </span>
                 <span class="nav-link-title"> Users </span>
               </a>
+              <div class="dropdown-menu">
+                <div class="dropdown-menu-columns">
+                  <div class="dropdown-menu-column">
+                    <a class="dropdown-item" href="/users">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img
+                          src="../../public/svg/users-group-svgrepo-com.svg"
+                        />
+                      </span>
+                      <span class="nav-link-title ms-2"> Users </span>
+                    </a>
+                    <a class="dropdown-item" href="/customers">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img
+                          src="../../public/svg/customer-service-svgrepo-com.svg"
+                        />
+                      </span>
+                      <span class="nav-link-title ms-2"> Customers </span>
+                    </a>
+                    <a class="dropdown-item" href="/sellers">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/seller-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Sellers </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/customers">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#navbar-base"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                role="button"
+                aria-expanded="false"
+              >
                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/customer-service-svgrepo-com.svg" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"></path>
+                    <path d="M12 12l8 -4.5"></path>
+                    <path d="M12 12l0 9"></path>
+                    <path d="M12 12l-8 -4.5"></path>
+                    <path d="M16 5.25l-8 4.5"></path>
+                  </svg>
                 </span>
-                <span class="nav-link-title"> Customers </span>
+                <span class="nav-link-title"> Categories & Products </span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sellers">
-                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/seller-svgrepo-com.svg" />
-                </span>
-                <span class="nav-link-title"> Sellers </span>
-              </a>
+              <div class="dropdown-menu">
+                <div class="dropdown-menu-columns">
+                  <div class="dropdown-menu-column">
+                    <a class="dropdown-item" href="/category">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/category-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Categories </span>
+                    </a>
+                    <a class="dropdown-item" href="/subcategory">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/category-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Subcategories </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
