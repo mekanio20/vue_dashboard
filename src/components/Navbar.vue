@@ -103,9 +103,17 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/customers">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                  <img src="../../public/svg/customer-service-svgrepo-com.svg" />
+                </span>
+                <span class="nav-link-title"> Customers </span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/sellers">
                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/users-group-svgrepo-com.svg" />
+                  <img src="../../public/svg/seller-svgrepo-com.svg" />
                 </span>
                 <span class="nav-link-title"> Sellers </span>
               </a>

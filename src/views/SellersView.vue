@@ -35,12 +35,12 @@
                   <th>Logo</th>
                   <th>Name</th>
                   <th>Store number</th>
-                  <th>Store floor</th>
                   <th>Seller type</th>
                   <th>Sell type</th>
                   <th>Main number</th>
                   <th>IsVerified</th>
                   <th>Category</th>
+                  <th>Subscription</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -51,12 +51,12 @@
                   <td><img src="item.logo" width="60" height="50" /></td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.store_number }}</td>
-                  <td>{{ item.store_floor }}</td>
                   <td>{{ item.seller_type }}</td>
                   <td>{{ item.sell_type }}</td>
                   <td>{{ item.main_number }}</td>
                   <td>{{ item.isVerified }}</td>
                   <td>{{ item.category?.tm_name || "null" }}</td>
+                  <td>{{ item.subscription.name }}</td>
                   <td>
                     <a
                       href="#update"
