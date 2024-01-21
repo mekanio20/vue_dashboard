@@ -3,24 +3,11 @@
     <Header />
     <Navbar />
     <div class="container-xl mt-3 mb-6">
-      <div class="row">
-        <div
-          v-if="successAlert"
-          class="alert alert-success"
-          :class="{ block: successAlert }"
-          role="alert"
-        >
-          {{ successAlert }}
-        </div>
-        <div
-          v-if="errorAlert"
-          class="alert alert-danger"
-          :class="{ block: errorAlert }"
-          role="alert"
-        >
-          {{ errorAlert }}
-        </div>
-      </div>
+      <Alert
+        v-if="errorAlert || successAlert"
+        :errorAlert="errorAlert"
+        :successAlert="successAlert"
+      />
       <div class="col-12 mb-3">
         <div class="card">
           <div class="card-header">
@@ -327,6 +314,7 @@ import FormButton from "@/components/layouts/FormButton.vue";
 import NumberInput from "@/components/layouts/NumberInput.vue";
 import BooleanInput from "@/components/layouts/BooleanInput.vue";
 import TextInput from "@/components/layouts/TextInput.vue";
+import Alert from "@/components/Alert.vue";
 export default {
   name: "Subscriptions",
   components: {
@@ -336,6 +324,7 @@ export default {
     NumberInput,
     BooleanInput,
     TextInput,
+    Alert,
   },
   data() {
     return {
@@ -375,18 +364,6 @@ export default {
     await this.allSubscriptions();
   },
   methods: {
-    async successMessage(msg) {
-      this.successAlert = msg;
-      setTimeout(() => {
-        this.successAlert = null;
-      }, 3000);
-    },
-    async errorMessage(msg) {
-      this.errorAlert = msg;
-      setTimeout(() => {
-        this.errorAlert = null;
-      }, 3000);
-    },
     // GET
     async allSubscriptions() {
       try {
@@ -430,14 +407,14 @@ export default {
           .post("/admin/add/subscription", postData, axiosConfig)
           .then((res) => {
             if (res.data.type === "error") {
-              this.errorMessage(res.data.msg);
+              this.errorAlert = res.data.msg;
             } else {
-              this.successMessage(res.data.msg);
+              this.succesAlert = res.data.msg ;
               this.allSubscriptions();
             }
           })
           .catch((err) => {
-            this.errorMessage(err.response.data.msg);
+            this.errorAlert = err.response.data.msg;
           });
         window.scroll(0, 0);
       } catch (error) {
@@ -471,14 +448,14 @@ export default {
           .put("/admin/update/subscription", postData, axiosConfig)
           .then((res) => {
             if (res.data.type === "error") {
-              this.errorMessage(res.data.msg);
+              this.errorAlert = res.data.msg;
             } else {
-              this.successMessage(res.data.msg);
+              this.succesAlert = res.data.msg ;
               this.allSubscriptions();
             }
           })
           .catch((err) => {
-            this.errorMessage(err.response.data.msg);
+            this.errorAlert = err.response.data.msg;
           });
         window.scroll(0, 0);
       } catch (error) {
@@ -498,14 +475,14 @@ export default {
             .delete(`/admin/delete/subscription/${id}`, axiosConfig)
             .then((res) => {
               if (res.data.type === "error") {
-                this.errorMessage(res.data.msg);
+                this.errorAlert = res.data.msg;
               } else {
-                this.successMessage(res.data.msg);
+                this.succesAlert = res.data.msg ;
                 this.allSubscriptions();
               }
             })
             .catch((err) => {
-              this.errorMessage(err.response.data.msg);
+              this.errorAlert = err.response.data.msg;
             });
         }
         window.scroll(0, 0);

@@ -62,9 +62,6 @@
                     </a>
                   </span>
                 </div>
-                <span class="form-label-description mb-3">
-                  <a href="#">I forgot password</a>
-                </span>
               </div>
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary w-100">

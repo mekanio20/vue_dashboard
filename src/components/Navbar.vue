@@ -223,6 +223,12 @@
                       </span>
                       <span class="nav-link-title ms-2"> Subcategories </span>
                     </a>
+                    <a class="dropdown-item" href="/products">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/products-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Products </span>
+                    </a>
                   </div>
                 </div>
               </div>

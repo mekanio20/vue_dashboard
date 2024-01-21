@@ -19,29 +19,38 @@
               <thead>
                 <tr>
                   <th>#Id</th>
-                  <th>Image</th>
-                  <th>Fullname</th>
+                  <th>Name</th>
                   <th>Gender</th>
-                  <th>Email</th>
-                  <th>createdAt</th>
-                  <th>updatedAt</th>
+                  <th>Quantity</th>
+                  <th>Org price</th>
+                  <th>Sale price</th>
+                  <th>Subcategory</th>
+                  <th>Brand</th>
+                  <th>Seller</th>
+                  <th>Rating</th>
+                  <th>Comment</th>
+                  <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in customers" :key="item.id">
+                <tr v-for="item in products" :key="item.id">
                   <td>#{{ item.id }}</td>
-                  <td><img src="item.logo" width="60" height="50" /></td>
-                  <td>{{ item.fullname }}</td>
+                  <td>{{ item.tm_name }}</td>
                   <td>{{ item.gender }}</td>
-                  <td>{{ item.email }}</td>
-                  <td>{{ item.createdAt }}</td>
-                  <td>{{ item.updatedAt }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.org_price }}</td>
+                  <td>{{ item.sale_price }}</td>
+                  <td>{{ item.subcategory?.tm_name || "null" }}</td>
+                  <td>{{ item.brand?.tm_name || "null" }}</td>
+                  <td>{{ item.seller?.name }}</td>
+                  <td>{{ item.rating }}</td>
+                  <td>{{ item.comment }}</td>
                   <td>
-                    <button
-                      class="btn btn-danger"
-                      @click="deleteCustomer(item.id)"
-                    >
+                    <a href="#update" class="btn btn-blue">Edit </a>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger">
                       Delete
                     </button>
                   </td>
@@ -51,7 +60,7 @@
           </div>
           <Paginator
             :dataLength="dataLength"
-            @setPageItem="allUsers"
+            @setPageItem="allProducts"
             :count="count"
           />
         </div>
@@ -60,7 +69,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import Header from "@/components/Header.vue";
 import Navbar from "@/components/Navbar.vue";
 import Paginator from "@/components/Paginator.vue";
@@ -70,7 +79,7 @@ import SelectInput from "@/components/layouts/SelectInput.vue";
 import Search from "@/components/Search.vue";
 import Alert from "@/components/Alert.vue";
 export default {
-  name: "Customers",
+  name: "Products",
   components: {
     Header,
     Navbar,
@@ -83,7 +92,7 @@ export default {
   },
   data() {
     return {
-      customers: null,
+      products: null,
       errorAlert: null,
       successAlert: null,
       currentPage: 1,
@@ -92,53 +101,17 @@ export default {
     };
   },
   async created() {
-    await this.allCustomers(this.currentPage);
+    await this.allProducts(this.currentPage);
   },
   methods: {
     // GET
-    async allCustomers(page) {
+    async allProducts(page) {
       try {
         this.currentPage = page;
-        const axiosConfig = {
-          headers: {
-            Authorization: `${localStorage.getItem("Authorization")}`,
-          },
-        };
-        const response = await this.$appAxios.get(
-          `/customer/all?page=${page}`,
-          axiosConfig
-        );
+        const response = await this.$appAxios.get(`/product/all?page=${page}`);
         this.dataLength = Math.ceil((await response.data.detail.count) / 10);
-        this.customers = await response.data.detail.rows;
+        this.products = await response.data.detail.rows;
         this.count = await response.data.detail.count;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    // DELETE
-    async deleteCustomer(id) {
-      try {
-        if (confirm("Bu maglumaty pozmak isleýärsiňizmi?")) {
-          const axiosConfig = {
-            headers: {
-              Authorization: `${localStorage.getItem("Authorization")}`,
-            },
-          };
-          this.$appAxios
-            .delete(`/admin/delete/customer/${id}`, axiosConfig)
-            .then((res) => {
-              if (res.data.type === "error") {
-                this.errorAlert = res.data.msg;
-              } else {
-                this.successAlert = res.data.msg;
-                this.allCustomers(this.currentPage);
-              }
-            })
-            .catch((err) => {
-              this.errorAlert = err.response.data.msg;
-            });
-        }
-        window.scroll(0, 0);
       } catch (error) {
         console.log(error);
       }

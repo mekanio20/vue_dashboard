@@ -3,24 +3,11 @@
     <Header />
     <Navbar />
     <div class="container-xl mt-3 mb-6">
-      <div class="row">
-        <div
-          v-if="successAlert"
-          class="alert alert-success"
-          :class="{ block: successAlert }"
-          role="alert"
-        >
-          {{ successAlert }}
-        </div>
-        <div
-          v-if="errorAlert"
-          class="alert alert-danger"
-          :class="{ block: errorAlert }"
-          role="alert"
-        >
-          {{ errorAlert }}
-        </div>
-      </div>
+      <Alert
+        v-if="errorAlert || successAlert"
+        :errorAlert="errorAlert"
+        :successAlert="successAlert"
+      />
       <div class="col-12 mb-3">
         <div class="card">
           <div class="card-header d-flex justify-content-between">
@@ -173,6 +160,7 @@ import TextInput from "@/components/layouts/TextInput.vue";
 import FormButton from "@/components/layouts/FormButton.vue";
 import SelectInput from "@/components/layouts/SelectInput.vue";
 import Search from "@/components/Search.vue";
+import Alert from "@/components/Alert.vue";
 export default {
   name: "Permissions",
   components: {
@@ -183,6 +171,7 @@ export default {
     FormButton,
     SelectInput,
     Search,
+    Alert,
   },
   data() {
     return {
@@ -210,18 +199,6 @@ export default {
     await this.allGroups(), await this.allPermissions(this.currentPage);
   },
   methods: {
-    async successMessage(msg) {
-      this.successAlert = msg;
-      setTimeout(() => {
-        this.successAlert = null;
-      }, 3000);
-    },
-    async errorMessage(msg) {
-      this.errorAlert = msg;
-      setTimeout(() => {
-        this.errorAlert = null;
-      }, 3000);
-    },
     // GET
     async allGroups() {
       try {
@@ -276,14 +253,14 @@ export default {
           .post("/admin/add/permission", postData, axiosConfig)
           .then((res) => {
             if (res.data.type === "error") {
-              this.errorMessage(res.data.msg);
+              this.errorAlert = res.data.msg;
             } else {
-              this.successMessage(res.data.msg);
+              this.successAlert = res.data.msg;
               this.allPermissions(this.currentPage);
             }
           })
           .catch((err) => {
-            this.errorMessage(err.response.data.msg);
+            this.errorAlert = err.response.data.msg;
           });
         window.scroll(0, 0);
       } catch (error) {
@@ -309,14 +286,14 @@ export default {
           .put("/admin/update/permission", updateData, axiosConfig)
           .then((res) => {
             if (res.data.type === "error") {
-              this.errorMessage(res.data.msg);
+              this.errorAlert = res.data.msg;
             } else {
-              this.successMessage(res.data.msg);
+              this.successAlert = res.data.msg;
               this.allPermissions(this.currentPage);
             }
           })
           .catch((err) => {
-            this.errorMessage(err.response.data.msg);
+            this.errorAlert = err.response.data.msg;
           });
         window.scroll(0, 0);
       } catch (error) {
@@ -336,14 +313,14 @@ export default {
             .delete(`/admin/delete/permission/${id}`, axiosConfig)
             .then((res) => {
               if (res.data.type === "error") {
-                this.errorMessage(res.data.msg);
+                this.errorAlert = res.data.msg;
               } else {
-                this.successMessage(res.data.msg);
+                this.successAlert = res.data.msg;
                 this.allPermissions(this.currentPage);
               }
             })
             .catch((err) => {
-              this.errorMessage(err.response.data.msg);
+              this.errorAlert = err.response.data.msg;
             });
         }
         window.scroll(0, 0);

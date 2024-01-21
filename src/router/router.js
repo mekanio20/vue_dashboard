@@ -11,6 +11,7 @@ const routes = [
     { path: '/users', name: 'Users', component: () => import('@/views/UsersView.vue') },
     { path: '/customers', name: 'Customers', component: () => import('@/views/CustomersView.vue') },
     { path: '/sellers', name: 'Sellers', component: () => import('@/views/SellersView.vue') },
+    { path: '/products', name: 'Products', component: () => import('@/views/ProductsView.vue') },
 ]
 
 const router = createRouter({
