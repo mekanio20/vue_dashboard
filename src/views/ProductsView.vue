@@ -29,6 +29,7 @@
                   <th>Seller</th>
                   <th>Rating</th>
                   <th>Comment</th>
+                  <th>IsActive</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -42,17 +43,24 @@
                   <td>{{ item.org_price }}</td>
                   <td>{{ item.sale_price }}</td>
                   <td>{{ item.subcategory?.tm_name || "null" }}</td>
-                  <td>{{ item.brand?.tm_name || "null" }}</td>
-                  <td>{{ item.seller?.name }}</td>
+                  <td>{{ item.brand?.name || "null" }}</td>
+                  <td>{{ item.seller?.name || "null" }}</td>
                   <td>{{ item.rating }}</td>
                   <td>{{ item.comment }}</td>
+                  <td>{{ item.isActive }}</td>
                   <td>
-                    <a href="#update" class="btn btn-blue">Edit </a>
+                    <a
+                      href="#update"
+                      class="btn btn-blue"
+                      @click="
+                        (update.id = Number(item.id)),
+                          (update.isActive = String(item.isActive))
+                      "
+                      >Edit
+                    </a>  
                   </td>
                   <td>
-                    <button class="btn btn-danger">
-                      Delete
-                    </button>
+                    <button class="btn btn-danger">Delete</button>
                   </td>
                 </tr>
               </tbody>
@@ -63,6 +71,30 @@
             @setPageItem="allProducts"
             :count="count"
           />
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div id="update" class="col-lg-4 mb-3">
+          <div class="col-10">
+            <form @submit.prevent="updateProduct" class="card">
+              <div class="card-header">
+                <h3 class="card-title">Update Seller</h3>
+              </div>
+              <div class="card-body">
+                <div class="row row-cards">
+                  <div class="mb-3 col-sm-4 col-md-10">
+                    <SelectInput
+                      label="IsActive"
+                      v-model="update.isActive"
+                      required="true"
+                      :options="['true', 'false']"
+                    />
+                  </div>
+                </div>
+              </div>
+              <FormButton />
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -98,6 +130,10 @@ export default {
       currentPage: 1,
       dataLength: 0,
       count: 0,
+      update: {
+        id: 0,
+        isActive: null,
+      },
     };
   },
   async created() {
@@ -108,10 +144,41 @@ export default {
     async allProducts(page) {
       try {
         this.currentPage = page;
-        const response = await this.$appAxios.get(`/product/all?page=${page}`);
+        const response = await this.$appAxios.get(`/product/all?isActive=all&page=${page}`);
         this.dataLength = Math.ceil((await response.data.detail.count) / 10);
         this.products = await response.data.detail.rows;
         this.count = await response.data.detail.count;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    // UPDATE
+    async updateProduct() {
+      try {
+        const updateUser = {
+          id: this.update.id,
+          isActive: this.update.isActive == "true" ? true : false,
+        };
+        const axiosConfig = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("Authorization")}`,
+          },
+        };
+        this.$appAxios
+          .put("/admin/update/product", updateUser, axiosConfig)
+          .then((res) => {
+            if (res.data.type === "error") {
+              this.errorAlert = res.data.msg;
+            } else {
+              this.successAlert = res.data.msg;
+              this.allProducts(this.currentPage);
+            }
+          })
+          .catch((err) => {
+            this.errorAlert = err.response.data.msg;
+          });
+        window.scroll(0, 0);
       } catch (error) {
         console.log(error);
       }
