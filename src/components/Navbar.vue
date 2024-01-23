@@ -89,13 +89,13 @@
               <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
                   <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="/brands">
+                    <a class="dropdown-item" href="/groups">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <img
-                          src="../../public/svg/brand-dribbble-svgrepo-com.svg"
+                          src="../../public/svg/users-group-svgrepo-com.svg"
                         />
                       </span>
-                      <span class="nav-link-title ms-2"> Brands </span>
+                      <span class="nav-link-title ms-2"> Groups </span>
                     </a>
                     <a class="dropdown-item" href="/permissions">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -228,6 +228,14 @@
                         <img src="../../public/svg/products-svgrepo-com.svg" />
                       </span>
                       <span class="nav-link-title ms-2"> Products </span>
+                    </a>
+                    <a class="dropdown-item" href="/brands">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img
+                          src="../../public/svg/brand-dribbble-svgrepo-com.svg"
+                        />
+                      </span>
+                      <span class="nav-link-title ms-2"> Brands </span>
                     </a>
                   </div>
                 </div>

@@ -33,10 +33,10 @@ export default {
     },
   },
   async created() {
-    if (successAlert) {
-      this.successAlert = successAlert;
-    } if (errorAlert) {
-      this.errorAlert = errorAlert;
+    if (this.successAlert) {
+      this.successAlert
+    } if (this.errorAlert) {
+      this.errorAlert
     }
   },
 };
