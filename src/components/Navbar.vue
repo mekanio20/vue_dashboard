@@ -206,7 +206,7 @@
                     <path d="M16 5.25l-8 4.5"></path>
                   </svg>
                 </span>
-                <span class="nav-link-title"> Categories & Products </span>
+                <span class="nav-link-title"> Storages </span>
               </a>
               <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
@@ -223,12 +223,6 @@
                       </span>
                       <span class="nav-link-title ms-2"> Subcategories </span>
                     </a>
-                    <a class="dropdown-item" href="/products">
-                      <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <img src="../../public/svg/products-svgrepo-com.svg" />
-                      </span>
-                      <span class="nav-link-title ms-2"> Products </span>
-                    </a>
                     <a class="dropdown-item" href="/brands">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <img
@@ -236,6 +230,18 @@
                         />
                       </span>
                       <span class="nav-link-title ms-2"> Brands </span>
+                    </a>
+                    <a class="dropdown-item" href="/products">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/products-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Products </span>
+                    </a>
+                    <a class="dropdown-item" href="/comments">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/comment-3-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Comments </span>
                     </a>
                   </div>
                 </div>

@@ -19,35 +19,27 @@
               <thead>
                 <tr>
                   <th>#Id</th>
-                  <th>Name</th>
-                  <th>Gender</th>
-                  <th>Quantity</th>
-                  <th>Org price</th>
-                  <th>Sale price</th>
-                  <th>Subcategory</th>
-                  <th>Brand</th>
-                  <th>Seller</th>
-                  <th>Rating</th>
                   <th>Comment</th>
                   <th>IsActive</th>
+                  <th>CreatedAt</th>
+                  <th>UpdatedAt</th>
+                  <th>CustomerId</th>
+                  <th>ProductId</th>
+                  <th>Star</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in products" :key="item.id">
+                <tr v-for="item in comments" :key="item.id">
                   <td>#{{ item.id }}</td>
-                  <td>{{ item.tm_name }}</td>
-                  <td>{{ item.gender }}</td>
-                  <td>{{ item.quantity }}</td>
-                  <td>{{ item.org_price }}</td>
-                  <td>{{ item.sale_price }}</td>
-                  <td>{{ item.subcategory?.tm_name || "null" }}</td>
-                  <td>{{ item.brand?.name || "null" }}</td>
-                  <td>{{ item.seller?.name || "null" }}</td>
-                  <td>{{ item.rating }}</td>
                   <td>{{ item.comment }}</td>
                   <td>{{ item.isActive }}</td>
+                  <td>{{ item.createdAt }}</td>
+                  <td>{{ item.updatedAt }}</td>
+                  <td>{{ item.customer.id }}</td>
+                  <td>{{ item.product.id }}</td>
+                  <td>{{ item.star || "null" }}</td>
                   <td>
                     <a
                       href="#update"
@@ -62,7 +54,7 @@
                   <td>
                     <button
                       class="btn btn-danger"
-                      @click="deleteProduct(item.id)"
+                      @click="deleteComment(item.id)"
                     >
                       Delete
                     </button>
@@ -73,7 +65,7 @@
           </div>
           <Paginator
             :dataLength="dataLength"
-            @setPageItem="allProducts"
+            @setPageItem="allComments"
             :count="count"
           />
         </div>
@@ -81,9 +73,9 @@
       <div class="d-flex justify-content-center">
         <div id="update" class="col-lg-4 mb-3">
           <div class="col-10">
-            <form @submit.prevent="updateProduct" class="card">
+            <form @submit.prevent="updateComment" class="card">
               <div class="card-header">
-                <h3 class="card-title">Update Seller</h3>
+                <h3 class="card-title">Update Comment</h3>
               </div>
               <div class="card-body">
                 <div class="row row-cards">
@@ -105,8 +97,8 @@
     </div>
   </div>
 </template>
-  
-<script>
+    
+  <script>
 import Header from "@/components/Header.vue";
 import Navbar from "@/components/Navbar.vue";
 import Paginator from "@/components/Paginator.vue";
@@ -116,7 +108,7 @@ import SelectInput from "@/components/layouts/SelectInput.vue";
 import Search from "@/components/Search.vue";
 import Alert from "@/components/Alert.vue";
 export default {
-  name: "Products",
+  name: "Comments",
   components: {
     Header,
     Navbar,
@@ -129,7 +121,7 @@ export default {
   },
   data() {
     return {
-      products: null,
+      comments: null,
       errorAlert: null,
       successAlert: null,
       currentPage: 1,
@@ -142,27 +134,25 @@ export default {
     };
   },
   async created() {
-    await this.allProducts(this.currentPage);
+    await this.allComments(this.currentPage);
   },
   methods: {
     // GET
-    async allProducts(page) {
+    async allComments(page) {
       try {
         this.currentPage = page;
-        const response = await this.$appAxios.get(
-          `/product/all?isActive=all&page=${page}`
-        );
+        const response = await this.$appAxios.get(`/comment/all?page=${page}`);
         this.dataLength = Math.ceil((await response.data.detail.count) / 10);
-        this.products = await response.data.detail.rows;
+        this.comments = await response.data.detail.rows;
         this.count = await response.data.detail.count;
       } catch (error) {
         console.log(error);
       }
     },
     // UPDATE
-    async updateProduct() {
+    async updateComment() {
       try {
-        const updateProduct = {
+        const updateComment = {
           id: this.update.id,
           isActive: this.update.isActive == "true" ? true : false,
         };
@@ -173,13 +163,13 @@ export default {
           },
         };
         this.$appAxios
-          .put("/admin/update/product", updateProduct, axiosConfig)
+          .put("/admin/update/comment", updateComment, axiosConfig)
           .then((res) => {
             if (res.data.type === "error") {
               this.errorAlert = res.data.msg;
             } else {
               this.successAlert = res.data.msg;
-              this.allProducts(this.currentPage);
+              this.allComments(this.currentPage);
             }
           })
           .catch((err) => {
@@ -191,7 +181,7 @@ export default {
       }
     },
     // DELETE
-    async deleteProduct(id) {
+    async deleteComment(id) {
       try {
         if (confirm("Bu maglumaty pozmak isleýärsiňizmi?")) {
           const axiosConfig = {
@@ -200,13 +190,13 @@ export default {
             },
           };
           this.$appAxios
-            .delete(`/product/${id}`, axiosConfig)
+            .delete(`/comment/${id}`, axiosConfig)
             .then((res) => {
               if (res.data.type === "error") {
                 this.errorAlert = res.data.msg;
               } else {
                 this.successAlert = res.data.msg;
-                this.allBrands(this.currentPage);
+                this.allComments(this.currentPage);
               }
             })
             .catch((err) => {
@@ -221,8 +211,8 @@ export default {
   },
 };
 </script>
-  
-<style>
+    
+  <style>
 @import "@/assets/css/tabler.min.css";
 @import "@/assets/css/tabler-flags.min.css";
 @import "@/assets/css/tabler-payments.min.css";
