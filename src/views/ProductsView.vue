@@ -206,7 +206,7 @@ export default {
                 this.errorAlert = res.data.msg;
               } else {
                 this.successAlert = res.data.msg;
-                this.allBrands(this.currentPage);
+                this.allProducts(this.currentPage);
               }
             })
             .catch((err) => {

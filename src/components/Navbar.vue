@@ -247,6 +247,14 @@
                 </div>
               </div>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/banners">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                  <img src="../../public/svg/banner-flag-label-svgrepo-com.svg">
+                </span>
+                <span class="nav-link-title"> Banners </span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>

@@ -15,6 +15,7 @@ const router = createRouter({
         { path: '/products', name: 'Products', component: () => import('@/views/ProductsView.vue') },
         { path: '/groups', name: 'Groups', component: () => import('@/views/GroupsView.vue') },
         { path: '/comments', name: 'Comments', component: () => import('@/views/CommentsView.vue') },
+        { path: '/banners', name: 'Banners', component: () => import('@/views/BannerView.vue') },
     ],
     history: createWebHistory()
 })
