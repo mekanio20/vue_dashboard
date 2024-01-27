@@ -16,6 +16,7 @@ const router = createRouter({
         { path: '/groups', name: 'Groups', component: () => import('@/views/GroupsView.vue') },
         { path: '/comments', name: 'Comments', component: () => import('@/views/CommentsView.vue') },
         { path: '/banners', name: 'Banners', component: () => import('@/views/BannerView.vue') },
+        { path: '/notifications', name: 'Notifications', component: () => import('@/views/NotificationView.vue') },
     ],
     history: createWebHistory()
 })
