@@ -263,6 +263,14 @@
                 <span class="nav-link-title"> Notifications </span>
               </a>
             </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="/notifications">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                  <img src="../../public/svg/contact-us-svgrepo-com.svg">
+                </span>
+                <span class="nav-link-title"> Contacts </span>
+              </a>
+            </li> -->
           </ul>
         </div>
       </div>
