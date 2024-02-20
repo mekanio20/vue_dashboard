@@ -223,6 +223,18 @@
                       </span>
                       <span class="nav-link-title ms-2"> Subcategories </span>
                     </a>
+                    <a class="dropdown-item" href="/feature/description">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/category-3-svgrepo-com.svg">
+                      </span>
+                      <span class="nav-link-title ms-2"> Feature Descriptions </span>
+                    </a>
+                    <a class="dropdown-item" href="/features">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/category-2-svgrepo-com.svg">
+                      </span>
+                      <span class="nav-link-title ms-2"> Features </span>
+                    </a>
                     <a class="dropdown-item" href="/brands">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <img
@@ -263,14 +275,6 @@
                 <span class="nav-link-title"> Notifications </span>
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="/notifications">
-                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                  <img src="../../public/svg/contact-us-svgrepo-com.svg">
-                </span>
-                <span class="nav-link-title"> Contacts </span>
-              </a>
-            </li> -->
           </ul>
         </div>
       </div>

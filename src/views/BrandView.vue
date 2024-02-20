@@ -208,7 +208,7 @@ export default {
       try {
         this.currentPage = page;
         const response = await this.$appAxios.get(
-          `/user/brands?status=all&page=${page}`
+          `/product/brands?status=all&page=${page}`
         );
         this.dataLength = Math.ceil((await response.data.detail.count) / 10);
         this.brands = await response.data.detail.rows;

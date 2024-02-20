@@ -99,17 +99,17 @@ export default {
           phone: this.phone,
           password: this.password,
         };
-        const response = await this.$appAxios.post("/user/login", postData);
+        const response = await this.$appAxios.post("/admin/login-page", postData);
         if (response && response.data.type === "success") {
           let group = await response.data.detail.groupId;
           if (group === 1 || group === 2) {
             localStorage.setItem(
               "Authorization",
-              `Bearer ${response.data.token}`
+              `Bearer ${response.data.detail.token}`
             );
-            this.$store.commit("setToken", response.data.token);
+            this.$store.commit("setToken", response.data.detail.token);
             this.$store.state.authStatus = true;
-            this.$router.push({ name: "Admin" });
+            this.$router.push({ name: "Home" });
           } else {
             this.errorMessage("Admin tapylmady!");
           }

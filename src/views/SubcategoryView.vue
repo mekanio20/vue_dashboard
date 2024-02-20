@@ -262,7 +262,7 @@ export default {
     async allCategories() {
       try {
         const response = await this.$appAxios.get(
-          `/user/categories?status=all&limit=100`
+          `/product/categories?status=all&limit=100`
         );
         this.categories = await response.data.detail.rows;
       } catch (error) {
@@ -273,7 +273,7 @@ export default {
       try {
         this.currentPage = page;
         const response = await this.$appAxios.get(
-          `/user/subcategories?status=all&page=${page}`
+          `/product/subcategories?status=all&page=${page}`
         );
         this.dataLength = Math.ceil((await response.data.detail.count) / 10);
         this.subcategories = await response.data.detail.rows;

@@ -65,12 +65,6 @@
                   <TextInput label="Description" placeholder="desc" v-model="post.desc" required="true">
                   </TextInput>
                 </div>
-                <div class="mb-3">
-                  <SelectInput label="Type" v-model="post.status" required="true" :options="[
-                    'on-wait',
-                    'sent'
-                  ]" />
-                </div>
               </div>
               <FormButton />
             </form>
@@ -135,7 +129,7 @@ export default {
       post: {
         title: null,
         desc: null,
-        status: null
+        receivers: 'all'
       },
       update: {
         id: 0,
@@ -171,9 +165,9 @@ export default {
     async addNotification() {
       try {
         const postData = {
-          receivers: this.receivers,
-          title: this.title,
-          desc: this.desc
+          receivers: this.post.receivers,
+          title: this.post.title,
+          desc: this.post.desc
         }
         const axiosConfig = {
           headers: {
@@ -188,7 +182,7 @@ export default {
               this.errorAlert = res.data.msg;
             } else {
               this.successAlert = res.data.msg;
-              this.allNotificationss(this.currentPage);
+              this.allNotifications(this.currentPage);
             }
           })
           .catch((err) => {
