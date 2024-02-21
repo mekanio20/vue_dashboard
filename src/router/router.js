@@ -18,6 +18,7 @@ const router = createRouter({
         { path: '/banners', name: 'Banners', component: () => import('@/views/BannerView.vue') },
         { path: '/notifications', name: 'Notifications', component: () => import('@/views/NotificationView.vue') },
         { path: '/features', name: 'Feature', component: () => import('@/views/FeatureView.vue') },
+        { path: '/subcategory/features', name: 'SubcategoryFeature', component: () => import('@/views/SubcategoryFeatureView.vue') },
         { path: '/feature/description', name: 'FeatureDescription', component: () => import('@/views/FeatureDescView.vue') },
     ],
     history: createWebHistory()

@@ -163,7 +163,7 @@ export default {
         };
     },
     async created() {
-        await this.allFeatures();
+        await this.allFeatures(this.currentPage);
     },
     methods: {
         // GET

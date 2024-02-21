@@ -223,9 +223,15 @@
                       </span>
                       <span class="nav-link-title ms-2"> Subcategories </span>
                     </a>
+                    <a class="dropdown-item" href="/subcategory/features">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <img src="../../public/svg/category-svgrepo-com.svg" />
+                      </span>
+                      <span class="nav-link-title ms-2"> Subcategory Features </span>
+                    </a>
                     <a class="dropdown-item" href="/feature/description">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <img src="../../public/svg/category-3-svgrepo-com.svg">
+                        <img src="../../public/svg/category-2-svgrepo-com.svg">
                       </span>
                       <span class="nav-link-title ms-2"> Feature Descriptions </span>
                     </a>

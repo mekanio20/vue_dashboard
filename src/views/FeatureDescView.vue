@@ -160,7 +160,7 @@ export default {
     },
     async created() {
         await this.allFeatures();
-        await this.allFeatureDescriptions();
+        await this.allFeatureDescriptions(this.currentPage);
     },
     methods: {
         // GET
@@ -175,15 +175,14 @@ export default {
                     "/admin/all/features?status=all",
                     axiosConfig
                 );
-                this.dataLength = Math.ceil((await response.data.detail.count) / 10);
                 this.features = response.data.detail.rows;
-                this.count = response.data.detail.count;
             } catch (error) {
                 console.log(error);
             }
         },
-        async allFeatureDescriptions() {
+        async allFeatureDescriptions(page) {
             try {
+                this.currentPage = page
                 const axiosConfig = {
                     headers: {
                         Authorization: `${localStorage.getItem("Authorization")}`,

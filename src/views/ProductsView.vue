@@ -22,7 +22,6 @@
                   <th>Name</th>
                   <th>Gender</th>
                   <th>Quantity</th>
-                  <th>Org price</th>
                   <th>Sale price</th>
                   <th>Subcategory</th>
                   <th>Brand</th>
@@ -40,7 +39,6 @@
                   <td>{{ item.tm_name }}</td>
                   <td>{{ item.gender }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>{{ item.org_price }}</td>
                   <td>{{ item.sale_price }}</td>
                   <td>{{ item.subcategory?.tm_name || "null" }}</td>
                   <td>{{ item.brand?.name || "null" }}</td>
