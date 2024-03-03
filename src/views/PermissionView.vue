@@ -211,7 +211,7 @@ export default {
           "/admin/all/groups",
           axiosConfig
         );
-        this.groups = response.data.detail;
+        this.groups = response.data.detail.rows;
       } catch (error) {
         console.log(error);
       }

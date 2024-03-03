@@ -248,7 +248,7 @@ export default {
         const fileInput = document.getElementById("img");
         const file = fileInput.files[0];
         const formData = new FormData();
-        formData.append("logo", file, file.name);
+        if (file?.name) { formData.append("logo", file, file.name) }
         formData.append("tm_name", this.post.tm_name);
         formData.append("ru_name", this.post.ru_name);
         formData.append("en_name", this.post.en_name);

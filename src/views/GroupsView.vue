@@ -174,10 +174,10 @@ export default {
           },
         };
         const response = await this.$appAxios.get(
-          "/admin/all/groups?isActive=all",
+          "/admin/all/groups?status=all",
           axiosConfig
         );
-        this.groups = response.data.detail;
+        this.groups = response.data.detail.rows;
       } catch (error) {
         console.log(error);
       }
